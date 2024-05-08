@@ -1,6 +1,5 @@
-# ADJUST START
+# ADJUST
 uid = "4pey9_"
-# ADJUST END
 
 # CONSTANT
 from spatialdata_io import visium
