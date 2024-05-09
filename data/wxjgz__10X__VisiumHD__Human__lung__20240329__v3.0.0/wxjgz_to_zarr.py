@@ -1,7 +1,7 @@
 uid = "wxjgz_"
 
 # CONSTANT
-from spatialdata_io import xenium
+from spatialdata_io import visium_hd
 import spatialdata as sd
 from pathlib import Path
 import shutil
@@ -19,12 +19,9 @@ path_write = dataset_path / f"{dataset_name}.zarr"
 
 ##
 print("parsing the data... ", end="")
-sdata = xenium(
+sdata = visium_hd(
     path=str(path_read),
-    n_jobs=8,
-    cell_boundaries=True,
-    nucleus_boundaries=True,
-    morphology_focus=True,
+    dataset_id="Human_Lung_Cancer",
 )
 print("done")
 

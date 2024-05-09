@@ -1,7 +1,7 @@
 uid = "oocrq_"
 
 # CONSTANT
-from spatialdata_io import xenium
+from spatialdata_io import visium
 import spatialdata as sd
 from pathlib import Path
 import shutil
@@ -19,12 +19,13 @@ path_write = dataset_path / f"{dataset_name}.zarr"
 
 ##
 print("parsing the data... ", end="")
-sdata = xenium(
+sdata = visium(
     path=str(path_read),
-    n_jobs=8,
-    cell_boundaries=True,
-    nucleus_boundaries=True,
-    morphology_focus=True,
+    dataset_id="V1_Mouse_Brain_Sagittal_Anterior_Section_2",
+    counts_file=str(path_read / "V1_Mouse_Brain_Sagittal_Anterior_Section_2_filtered_feature_bc_matrix.h5"),
+    fullres_image_file=str(path_read / "spatial" /"tissue_hires_image.png"),
+    tissue_positions_file=str(path_read / "spatial" / "tissue_positions.csv"),
+    scalefactors_file=str(path_read / "spatial" / "scalefactors_json.json"),
 )
 print("done")
 
