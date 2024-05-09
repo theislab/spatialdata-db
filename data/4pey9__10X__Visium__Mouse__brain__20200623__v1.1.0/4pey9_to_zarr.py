@@ -1,3 +1,4 @@
+# ADJUST
 uid = "4pey9_"
 
 # CONSTANT
@@ -19,11 +20,14 @@ path_write = dataset_path / f"{dataset_name}.zarr"
 
 ##
 print("parsing the data... ", end="")
+
+# had to extract 
+#   - Visium_Adult_Mouse_Brain_spatial.tar.gz 
 sdata = visium(
     path=str(path_read),
     dataset_id="Visium_Adult_Mouse_Brain",
     counts_file=str(path_read / "Visium_Adult_Mouse_Brain_filtered_feature_bc_matrix.h5"),
-    fullres_image_file=str(path_read / "spatial" /"tissue_hires_image.png"),
+    fullres_image_file=str(path_read / "spatial" / "tissue_hires_image.png"),
     tissue_positions_file=str(path_read / "spatial" / "tissue_positions_list.csv"),
     scalefactors_file=str(path_read / "spatial" / "scalefactors_json.json"),
 )
