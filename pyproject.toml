@@ -5,7 +5,7 @@ requires = ["hatchling"]
 [project]
 name = "spatialdata-db"
 version = "0.0.1"
-description = "spatialdata-db"
+description = "spatialdata_db"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {file = "LICENSE"}
@@ -19,15 +19,19 @@ urls.Documentation = "https://spatialdata-db.readthedocs.io/"
 urls.Source = "https://github.com/theislab/spatialdata-db"
 urls.Home-page = "https://github.com/theislab/spatialdata-db"
 dependencies = [
-    "anndata",
-    "scanpy",
-    "lamindb==0.69.5",
-    "cellxgene-lamin==0.2.1",
-    "cellxgene-schema>=3.1.3",
-    "squidpy",
+    "spatialdata",
+    "cellxgene",
+    "s3fs>=2024.2.0",
+    "bionty",
+    "zarr",
+    "ipython",
+    "lamindb==0.71.2",
+    "cellxgene-lamin",
+    "cellxgene-schema==4.0.1",
     # for debug logging (referenced from the issue template)
     "session-info"
 ]
+
 
 [project.optional-dependencies]
 dev = [
