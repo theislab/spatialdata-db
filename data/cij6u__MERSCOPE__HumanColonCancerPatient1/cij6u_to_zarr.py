@@ -1,7 +1,7 @@
-uid = "1lhfw_"
+uid = "cij6u_"
 
 # CONSTANT
-from spatialdata_io import xenium
+from spatialdata_io import merscope
 import spatialdata as sd
 from pathlib import Path
 import shutil
@@ -19,12 +19,9 @@ path_write = dataset_path / f"{dataset_name}.zarr"
 
 ##
 print("parsing the data... ", end="")
-sdata = xenium(
+sdata = merscope(
     path=str(path_read),
-    n_jobs=8,
-    cell_boundaries=True,
-    nucleus_boundaries=True,
-    morphology_focus=True,
+    vpt_outputs={"cell_by_gene": path_read, "cell_metadata": path_read, "cell_boundaries": path_read/"cell_boundaries"},
 )
 print("done")
 
