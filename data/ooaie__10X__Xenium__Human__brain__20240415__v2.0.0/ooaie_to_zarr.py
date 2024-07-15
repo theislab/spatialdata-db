@@ -1,6 +1,4 @@
-# ADJUST START
 uid = "ooaie_"
-# ADJUST END
 
 # CONSTANT
 from spatialdata_io import xenium
