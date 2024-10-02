@@ -1,3 +1,26 @@
+# Temp files
+.DS_Store
+*~
+buck-out/
+sandbox.ipynb
 geckodriver
-.DS_store
 
+# IDEs
+/.idea/
+/.vscode/
+
+# Compiled files
+.venv/
+__pycache__/
+.*cache/
+
+# Distribution / packaging
+/dist/
+
+# Tests and coverage
+/data/
+/node_modules/
+
+# docs
+/docs/generated/
+/docs/_build/
