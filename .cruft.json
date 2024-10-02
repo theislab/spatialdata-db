@@ -1,0 +1,30 @@
+{
+  "template": "https://github.com/scverse/cookiecutter-scverse",
+  "commit": "ab6df8677b2e65fc8ae7ae9b7425373b706af3ee",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "spatialdata-db",
+      "package_name": "spatialdata_db",
+      "project_description": "A very interesting piece of code",
+      "author_full_name": "Tim Treis",
+      "author_email": "tim.treis@helmholtz-munich.de",
+      "github_user": "timtreis",
+      "github_repo": "spatialdata-db",
+      "license": "BSD 3-Clause License",
+      "ide_integration": false,
+      "_copy_without_render": [
+        ".github/workflows/build.yaml",
+        ".github/workflows/test.yaml",
+        "docs/_templates/autosummary/**.rst"
+      ],
+      "_render_devdocs": false,
+      "_jinja2_env_vars": {
+        "lstrip_blocks": true,
+        "trim_blocks": true
+      },
+      "_template": "https://github.com/scverse/cookiecutter-scverse"
+    }
+  },
+  "directory": null
+}
