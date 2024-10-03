@@ -1,6 +1,6 @@
 # spatialdata-db
 
-Currently focussing on the following datasets for diversity in testing
+Currently focusing on the following datasets for diversity in testing:
 
 - `4pey9`: Visium, Mouse, Brain
 - `4b368`: Visium, Mouse, Lung
@@ -10,7 +10,7 @@ Currently focussing on the following datasets for diversity in testing
 
 
 ## UID logic
-- Absolute ID will be a 5 char string of lowecase letters and digits -> 60466176 IDs
+- Absolute ID will be a 5 char string of lowercase letters and digits -> 60466176 IDs
 - Leaving out the letters [l, b, o, g, q] due to their similarity to [1, 6, 0, 9, 9] -> 28629151 IDs
 - Reserve ID spaces for technology providers
   - 10 _ _ _ -> 29791 IDs for 10X Genomics
