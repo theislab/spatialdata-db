@@ -4,7 +4,7 @@ uid = "10ktp"
 # Setup before running this script for the first time
 #   1) Ensure you have a lamin.ai account
 #   2) Run `lamin login` to authenticate
-#   3) Activate lamin db connection with `lamin load scverse/spatial`
+#   3) Activate lamin db connection with `lamin load scverse/spatialdata-dbdata-db`
 #   4) Execute script once and replace the stem_uid for this file
 
 import lamindb as ln
