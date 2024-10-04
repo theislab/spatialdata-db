@@ -11,9 +11,7 @@ import lamindb as ln
 
 ln.settings.transform.stem_uid = "KgGzOw8PUYKO"
 ln.settings.transform.version = "3"
-
-ln.track()
-
+ln.track("KgGzOw8PUYKO7CpM")
 try:
     artifact = ln.Artifact.filter(ulabels__name=uid).one()
     artifact.delete(permanent=True)

@@ -41,11 +41,9 @@ vc = VitessceConfig(
 
 wrapper = SpatialDataWrapper(
     spatialdata_url=artifact.path.to_url(),
-    image_path="images/Visium_Adult_Mouse_Brain_hires_image",
-    obs_feature_matrix_path = "tables/table/X",
-    feature_labels_path = "tables/table/var/gene_ids",
-    shapes_path = "shapes/Visium_Adult_Mouse_Brain",
-    coordination_values={"obsType": "spot"}
+    image_elem="images/Visium_Adult_Mouse_Brain_hires_image",
+    shapes_elem = "shapes/Visium_Adult_Mouse_Brain",
+    table_path = "tables/table",
 )
 
 dataset = vc.add_dataset(name='Visium demo').add_object(wrapper)
