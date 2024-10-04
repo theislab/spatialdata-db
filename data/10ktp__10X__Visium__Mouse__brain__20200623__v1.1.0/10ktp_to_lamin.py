@@ -21,7 +21,7 @@ except:
     pass
 
 ### From here on we assume Lamin is set up correctly
-DATASET_PATH = "/lustre/groups/ml01/projects/2024_spatialdata_db/data/10ktp__10X__Visium__Mouse__brain__20200623__v1.1.0/10ktp__10X__Visium__Mouse__brain__20200623__v1.1.0.spatialdata.zarr"
+DATASET_PATH = "/lustre/groups/ml01/projects/2024_spatialdata_db/data/10ktp__10X__Visium__Mouse__brain__20200623__v1.1.0/10ktp__10X__Visium__Mouse__brain__20200623__v1.1.0.zarr"
 
 artifact = ln.Artifact(DATASET_PATH, description="10X, Visium, Mouse, Brain")
 artifact.save() # transfers to Lamin
@@ -34,8 +34,9 @@ artifact.labels.add(tuid)
 
 # load 10X metadata we have on disk
 import pandas as pd
+from spatialdata_db import load_10x_metadata
 
-all_metadata_10x = pd.read_csv("../../utils/data/10x_datasets.csv", sep=";")
+all_metadata_10x = load_10x_metadata()
 assert len(all_metadata_10x.query(f"uid == '{uid}'")) == 1
 metadata = all_metadata_10x.query(f"uid == '{uid}'").iloc[0]
 

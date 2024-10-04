@@ -8,6 +8,15 @@ Currently focusing on the following datasets for diversity in testing:
 - `oeuwa`: Xenium, Mouse, Brain
 - `jqmx8`: VisiumHD, Mouse, Intestine
 
+## Setup vitessce
+Currently, the `SpatialDataWrapper` is not yet merged and released. Therefore, we have to install it via
+
+```bash
+pip install anywidget starlette uvicorn
+pip install git+https://github.com/vitessce/vitessce-python.git@ig/spatial_data
+```
+
+from Ilan's PR: https://github.com/vitessce/vitessce-python/pull/333
 
 ## UID logic
 - Absolute ID will be a 5 char string of lowercase letters and digits -> 60466176 IDs
