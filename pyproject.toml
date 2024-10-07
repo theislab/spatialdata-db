@@ -5,7 +5,7 @@ requires = [ "hatchling" ]
 [project]
 name = "spatialdata-db"
 version = "0.0.1"
-description = "A very interesting piece of code"
+description = "A SpatialData Validator"
 readme = "README.md"
 license = { file = "LICENSE" }
 maintainers = [
@@ -25,6 +25,7 @@ dependencies = [
   "anndata",
   # for debug logging (referenced from the issue template)
   "session-info",
+  "lamindb[aws,bionty,jupyter]"
 ]
 optional-dependencies.dev = [
   "pre-commit",
