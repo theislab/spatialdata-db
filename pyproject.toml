@@ -14,10 +14,11 @@ maintainers = [
 authors = [
   { name = "Tim Treis" },
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.10, <3.12"
+# 3.12 attempts to install an old version of dask-image which isn't 3.12 compatible
+# See https://github.com/theislab/spatialdata-db/actions/runs/11230700843/job/31218561107?pr=35
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
 ]
