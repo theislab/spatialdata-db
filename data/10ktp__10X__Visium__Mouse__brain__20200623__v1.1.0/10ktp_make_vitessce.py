@@ -1,18 +1,8 @@
-# ADJUST
-uid = "10ktp"
-
-# Setup before running this script for the first time
-#   1) Ensure you have a lamin.ai account
-#   2) Run `lamin login` to authenticate
-#   3) Activate lamin db connection with `lamin load scverse/spatialdata-db`
-#   4) Execute script once and replace the stem_uid for this file
+theislab_uid = "10ktp"
 
 import lamindb as ln
 
-ln.settings.transform.stem_uid = "5PYtTxDE7LvE"
-ln.settings.transform.version = "1"
-
-ln.track()
+ln.context.track("5PYtTxDE7LvE")
 
 from vitessce import (
     VitessceConfig,
@@ -31,7 +21,7 @@ import spatialdata as sd
 from lamindb.integrations import save_vitessce_config
 
 
-artifact = ln.Artifact.filter(ulabels__name=uid).one()
+artifact = ln.Artifact.filter(ulabels__name=theislab_uid).one()
 
 vc = VitessceConfig(
     schema_version="1.0.16",

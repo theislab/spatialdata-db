@@ -25,7 +25,11 @@ dependencies = [
   "anndata",
   # for debug logging (referenced from the issue template)
   "session-info",
-  "lamindb[aws,bionty,jupyter]"
+  "lamindb[aws,bionty,jupyter]",
+  "vitessce",
+  "spatialdata",
+  "spatialdata-io",
+  "spatialdata-plot"
 ]
 optional-dependencies.dev = [
   "pre-commit",
