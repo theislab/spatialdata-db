@@ -30,9 +30,9 @@ def update_master_with_ids(uid_master_csv_path, file_paths):
 
 
 if __name__ == "__main__":
-    master_csv_path = "../data/uid_master.csv" 
+    master_csv_path = "data/uid_master.csv" 
     dataset_paths = [
-        "../data/datasets_10x.csv",
+        "data/datasets_10x.csv",
         # tbd
     ]
 

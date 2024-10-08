@@ -22,7 +22,7 @@ OUTPUT_DIR = pl.Path("/lustre/groups/ml01/projects/2024_spatialdata_db/data")
 # In[2]:
 
 
-data = pd.read_csv("/home/icb/tim.treis/projects/spatialdata-db/utils/data/10x_datasets.csv")[:2]
+data = pd.read_csv("/home/icb/tim.treis/projects/spatialdata-db/scripts/data/10x_datasets.csv")[:2]
 data
 
 
