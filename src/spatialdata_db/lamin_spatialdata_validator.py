@@ -7,6 +7,7 @@ from lamindb.core import AnnDataCurator, DataFrameCurator
 from lamindb_setup.core.types import UPathStr
 from lnschema_core import Record
 from lnschema_core.types import FieldAttr
+from lamin_utils import logger, colors
 
 def _add_defaults(data: pd.DataFrame | UPathStr, defaults: dict[str, str] = None) -> None:
     """Adds default values to a Pandas DataFrame if values are missing."""
@@ -24,15 +25,15 @@ def _add_defaults(data: pd.DataFrame | UPathStr, defaults: dict[str, str] = None
 class SpatialDataMetadataValidator(DataFrameCurator):
     
     DEFAULT_CATEGORICALS = {
-        "disease": bt.Disease.name,
+        "assay": bt.ExperimentalFactor.name,
     }
 
     DEFAULT_VALUES = {
-        "disease": "normal",
+        "assay": "na",
     }
 
     FIXED_SOURCES = {
-        "disease": bt.Source.filter(entity="bionty.Disease", name="mondo", version="2023-04-04").one()
+        "assay": bt.Source.filter(entity="bionty.ExperimentalFactor", name="efo", version="3.70.0").one()
     }
     
     def __init__(
@@ -45,7 +46,6 @@ class SpatialDataMetadataValidator(DataFrameCurator):
         organism="human",
     ):
         self.data = data
-        self.organism = organism
         
         _add_defaults(data, defaults)
 
@@ -60,18 +60,19 @@ class SpatialDataMetadataValidator(DataFrameCurator):
 class SpatialDataTableValidator(AnnDataCurator):
     
     DEFAULT_CATEGORICALS = {
-        "disease": bt.Disease.name,
+        "celltype": bt.CellType.name,
     }
 
     DEFAULT_VALUES = {
-        "disease": "normal",
+        "Celltype": "normal",
     }
 
     FIXED_SOURCES = {
-        "disease": bt.Source.filter(entity="bionty.Disease", name="mondo", version="2023-04-04").one()
+        "celltype": bt.Source.filter(entity="bionty.CellType", name="cl", version="2023-08-24").one()
     }
     
-    # TODO not every AnnData objects will have all of these obs columns present but one of them should -> define a rule
+    # TODO not every AnnData objects will have all of these obs columns present but one of them should
+    # Figure out how to pass the categoricals to the respective tables
     
     def __init__(
         self,
@@ -80,18 +81,21 @@ class SpatialDataTableValidator(AnnDataCurator):
         categoricals: dict[str, FieldAttr] = DEFAULT_CATEGORICALS,
         *,
         defaults: dict[str, str] = None,
+        table_key: str,
         organism="human",
     ):
+        self.data = data
+        self.table_key = table_key
+        
         _add_defaults(data, defaults)
 
         super().__init__(
             data=data, var_index=var_index, categoricals=categoricals, organism=organism
         )
 
-    def validate(self) -> bool:
-        """Further custom validation."""
-        # --- Custom validation logic goes here --- #
-        return super().validate()
+    def validate(self, organism: str | None = None) -> bool:
+        """Validate the table."""
+        return super().validate(organism)
     
 
 class SpatialDataValidator:
@@ -111,18 +115,19 @@ class SpatialDataValidator:
         
         # TODO think about how to integrate the parameters -> some weird nested quirky thing
         
-        self.metadata_validator = SpatialDataMetadataValidator(self.sdata.metadata, organism=self.organism)
-        self.table_validators = [SpatialDataTableValidator(table, organism=self.organism) for table in self.sdata.tables]
+        self.metadata_validator = SpatialDataMetadataValidator(data=self.sdata.metadata, organism=self.organism)
+        self.table_validators = {table_key: SpatialDataTableValidator(data=sdata.tables[table_key], table_key=table_key, organism=self.organism) for table_key in self.sdata.tables.keys()}
 
 
     def validate(self, organism: str | None = None) -> bool:
-        """Further custom validation."""
-        
+        """Validating Spatialdata objects including the metadata and all tables (AnnData objects)."""
         # TODO this should very clearly state which things were able to be validate or not
         
-        is_metadata_validated = DataFrameCurator.validate(self.sdata.metadata, organism)
-        is_table_validated = False
-        for sdtvalidator in self.table_validators:
-            is_table_validated = AnnDataCurator.validate(sdtvalidator, organism)
+        logger.info(f"Validating {colors.green('metadata')}.")
+        is_metadata_validated = self.metadata_validator.validate(organism)
+        is_tables_validated = False
+        for table_key, sdtvalidator in self.table_validators.items():
+            logger.info(f"Validating Anndata object with key {colors.green(sdtvalidator.table_key)}")
+            is_tables_validated = sdtvalidator.validate(organism)
         
-        return is_metadata_validated and is_table_validated
+        return is_metadata_validated and is_tables_validated
