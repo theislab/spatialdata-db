@@ -14,13 +14,13 @@ def _add_defaults(data: pd.DataFrame | UPathStr, defaults: dict[str, str] = None
     if defaults:
         if isinstance(data, UPathStr):
             data = pd.read_csv(UPathStr)  # TODO this parsing is not very safe
-            
+        
         for col, default in defaults.items():
             if col not in data.columns:
                 data[col] = default
             else:
                 data[col].fillna(default, inplace=True)
-
+        
 
 class SpatialDataMetadataValidator(DataFrameCurator):
     
@@ -64,10 +64,10 @@ class SpatialDataTableValidator(AnnDataCurator):
     }
 
     DEFAULT_VALUES = {
-        "Celltype": "normal",
+        "celltype": "normal",
     }
 
-    FIXED_SOURCES = {
+    DEFAULT_SOURCES = {
         "celltype": bt.Source.filter(entity="bionty.CellType", name="cl", version="2023-08-24").one()
     }
     
@@ -80,14 +80,14 @@ class SpatialDataTableValidator(AnnDataCurator):
         var_index: FieldAttr = bt.Gene.ensembl_gene_id,
         categoricals: dict[str, FieldAttr] = DEFAULT_CATEGORICALS,
         *,
-        defaults: dict[str, str] = None,
+        defaults: dict[str, str] = DEFAULT_VALUES,
         table_key: str,
         organism="human",
     ):
         self.data = data
         self.table_key = table_key
         
-        _add_defaults(data, defaults)
+        _add_defaults(data.obs, defaults)
 
         super().__init__(
             data=data, var_index=var_index, categoricals=categoricals, organism=organism
@@ -127,7 +127,7 @@ class SpatialDataValidator:
         is_metadata_validated = self.metadata_validator.validate(organism)
         is_tables_validated = False
         for table_key, sdtvalidator in self.table_validators.items():
-            logger.info(f"Validating Anndata object with key {colors.green(sdtvalidator.table_key)}")
+            logger.info(f"Validating Anndata object with key {colors.green(table_key)}")
             is_tables_validated = sdtvalidator.validate(organism)
         
         return is_metadata_validated and is_tables_validated
