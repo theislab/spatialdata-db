@@ -15,13 +15,13 @@ def _add_defaults(data: pd.DataFrame | UPathStr, defaults: dict[str, str] = None
     if defaults:
         if isinstance(data, UPathStr):
             data = pd.read_csv(UPathStr)  # TODO this parsing is not very safe
-            
+        
         for col, default in defaults.items():
             if col not in data.columns:
                 data[col] = default
             else:
                 data[col].fillna(default, inplace=True)
-
+        
 
 class SpatialDataMetadataValidator(DataFrameCurator):
     
