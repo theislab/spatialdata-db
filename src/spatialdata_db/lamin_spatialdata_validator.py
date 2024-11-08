@@ -2,6 +2,7 @@ import bionty as bt
 import pandas as pd
 import anndata as ad
 import spatialdata as sd
+import lamindb as ln
 
 from lamindb.core import AnnDataCurator, DataFrameCurator
 from lamindb_setup.core.types import UPathStr
@@ -26,15 +27,37 @@ class SpatialDataMetadataValidator(DataFrameCurator):
     
     DEFAULT_CATEGORICALS = {
         "assay": bt.ExperimentalFactor.name,
+        'license': ln.ULabel.name,
+        'specimen': ln.ULabel.name,
+        'magnification': ln.ULabel.name,
+        'protocol_url': ln.ULabel.name,
+        'study_link': ln.ULabel.name,
+        'preproc_version': ln.ULabel.name,
+        'omics': ln.ULabel.name,
+        'chemistry_version': ln.ULabel.name,
+        'data_provider': ln.ULabel.name,
+        'disease_state': ln.ULabel.name,
+        'organism': bt.Organism.name,
+        'tissue': bt.Tissue.name,
+        'publish_date': ln.ULabel.name,
+        'disease': ln.ULabel.name, # TODO: disease ontology
     }
 
     DEFAULT_VALUES = {
-        "assay": "na",
+        "license": "not provided",
+        "magnification": "not provided",
+        'protocol_url': "not provided",
+        'preproc_version': "not provided",
+        'omics': "not provided",
+        'chemistry_version': "not provided",
+        'data_provider': "not provided",
+        'disease_state': "not provided",
+        'publish_date': "not provided",
     }
 
     FIXED_SOURCES = {
         "assay": bt.Source.filter(entity="bionty.ExperimentalFactor", name="efo", version="3.70.0").one()
-    }
+        }
     
     def __init__(
         self,
@@ -64,10 +87,10 @@ class SpatialDataTableValidator(AnnDataCurator):
     }
 
     DEFAULT_VALUES = {
-        "Celltype": "normal",
+        "celltype": "normal",
     }
 
-    FIXED_SOURCES = {
+    DEFAULT_SOURCES = {
         "celltype": bt.Source.filter(entity="bionty.CellType", name="cl", version="2023-08-24").one()
     }
     
@@ -80,14 +103,14 @@ class SpatialDataTableValidator(AnnDataCurator):
         var_index: FieldAttr = bt.Gene.ensembl_gene_id,
         categoricals: dict[str, FieldAttr] = DEFAULT_CATEGORICALS,
         *,
-        defaults: dict[str, str] = None,
+        defaults: dict[str, str] = DEFAULT_VALUES,
         table_key: str,
         organism="human",
     ):
         self.data = data
         self.table_key = table_key
         
-        _add_defaults(data, defaults)
+        _add_defaults(data.obs, defaults)
 
         super().__init__(
             data=data, var_index=var_index, categoricals=categoricals, organism=organism
@@ -127,7 +150,7 @@ class SpatialDataValidator:
         is_metadata_validated = self.metadata_validator.validate(organism)
         is_tables_validated = False
         for table_key, sdtvalidator in self.table_validators.items():
-            logger.info(f"Validating Anndata object with key {colors.green(sdtvalidator.table_key)}")
+            logger.info(f"Validating Anndata object with key {colors.green(table_key)}")
             is_tables_validated = sdtvalidator.validate(organism)
         
         return is_metadata_validated and is_tables_validated
