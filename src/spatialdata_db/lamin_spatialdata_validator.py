@@ -25,38 +25,56 @@ def _add_defaults(data: pd.DataFrame | UPathStr, defaults: dict[str, str] = None
 
 class SpatialDataMetadataValidator(DataFrameCurator):
     
+    # DEFAULT_CATEGORICALS = {
+    #     "assay": bt.ExperimentalFactor.name,
+    #     'license': ln.ULabel.name,
+    #     'specimen': ln.ULabel.name,
+    #     'magnification': ln.ULabel.name,
+    #     'protocol_url': ln.ULabel.name,
+    #     'study_link': ln.ULabel.name,
+    #     'preproc_version': ln.ULabel.name,
+    #     'omics': ln.ULabel.name,
+    #     'chemistry_version': ln.ULabel.name,
+    #     'data_provider': ln.ULabel.name,
+    #     'disease_state': ln.ULabel.name,
+    #     'organism': bt.Organism.name,
+    #     'tissue': bt.Tissue.name,
+    #     'publish_date': ln.ULabel.name,
+    #     'disease': ln.ULabel.name, # TODO: disease ontology
+    # }
+
+    # DEFAULT_VALUES = {
+    #     "license": "not provided",
+    #     "magnification": "not provided",
+    #     'protocol_url': "not provided",
+    #     'preproc_version': "not provided",
+    #     'omics': "not provided",
+    #     'chemistry_version': "not provided",
+    #     'data_provider': "not provided",
+    #     'disease_state': "not provided",
+    #     'publish_date': "not provided",
+    # }
+
     DEFAULT_CATEGORICALS = {
         "assay": bt.ExperimentalFactor.name,
-        'license': ln.ULabel.name,
-        'specimen': ln.ULabel.name,
-        'magnification': ln.ULabel.name,
-        'protocol_url': ln.ULabel.name,
-        'study_link': ln.ULabel.name,
-        'preproc_version': ln.ULabel.name,
-        'omics': ln.ULabel.name,
         'chemistry_version': ln.ULabel.name,
-        'data_provider': ln.ULabel.name,
-        'disease_state': ln.ULabel.name,
         'organism': bt.Organism.name,
         'tissue': bt.Tissue.name,
-        'publish_date': ln.ULabel.name,
-        'disease': ln.ULabel.name, # TODO: disease ontology
+        'disease': bt.Disease.name,
+        "development_stage": bt.DevelopmentalStage.name, # optional
+        "self_reported_ethnicity": bt.Ethnicity.name, # optional
+        "sex": bt.Phenotype.name, # optional
     }
 
     DEFAULT_VALUES = {
-        "license": "not provided",
-        "magnification": "not provided",
-        'protocol_url': "not provided",
-        'preproc_version': "not provided",
-        'omics': "not provided",
-        'chemistry_version': "not provided",
-        'data_provider': "not provided",
-        'disease_state': "not provided",
-        'publish_date': "not provided",
+        "development_stage": "unknown",
+        "self_reported_ethnicity": "unknown",
+        'sex': "unknown",
     }
 
+
     FIXED_SOURCES = {
-        "assay": bt.Source.filter(entity="bionty.ExperimentalFactor", name="efo", version="3.70.0").one()
+            # TODO: fix ontologies
         }
     
     def __init__(
