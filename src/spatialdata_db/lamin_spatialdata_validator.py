@@ -139,12 +139,13 @@ class SpatialDataTableValidator(AnnDataCurator):
         return super().validate(organism)
     
 
-class SpatialDataValidator:
+class SpatialDataCurator:
     """Custom curation flow for SpatialData."""
 
     def __init__(
         self,
         sdata: sd.SpatialData | UPathStr,
+        var_index: FieldAttr = bt.Gene.ensembl_gene_id,
         # categoricals: dict[str, FieldAttr] = DEFAULT_CATEGORICALS,
         *,
         # defaults: dict[str, str] = None,
@@ -156,8 +157,9 @@ class SpatialDataValidator:
         
         # TODO think about how to integrate the parameters -> some weird nested quirky thing
         
-        self.metadata_validator = SpatialDataMetadataValidator(data=self.sdata.metadata, organism=self.organism)
-        self.table_validators = {table_key: SpatialDataTableValidator(data=sdata.tables[table_key], table_key=table_key, organism=self.organism) for table_key in self.sdata.tables.keys()}
+        # self.metadata_validator = SpatialDataMetadataValidator(data=self.sdata.metadata, organism=self.organism)
+        self.table_validators = {table_key: SpatialDataTableValidator(data=sdata.tables[table_key], table_key=table_key, organism=self.organism, var_index=var_index)
+                                 for table_key in self.sdata.tables.keys()}
 
 
     def validate(self, organism: str | None = None) -> bool:

@@ -1,0 +1,2 @@
+study_link,license,publish_date,organism,specimen,tissue,disease,disease_state,data_provider,assay,chemistry_version,protocol_url,preproc_version,magnification,microm_per_pixel,microm_per_pixel_estimated,omics
+https://www.10xgenomics.com/datasets/mouse-brain-serial-section-1-sagittal-posterior-1-standard-1-0-0,Creative Commons Attribution,2019-12-02,Mouse,tissue,brain,unknown,,10XGenomics,Visium,Spatial 3' v2,,Space Ranger version 1.0.0,,,,rna
