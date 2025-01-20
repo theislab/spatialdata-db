@@ -30,4 +30,4 @@ __pycache__/
 
 Sandbox.ipynb
 test.ipynb
-*/10ktp__10X__Visium__Mouse__brain__20200623__v1.1.0.zarr
+*.zarr
