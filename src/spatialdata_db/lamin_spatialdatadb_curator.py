@@ -1,4 +1,4 @@
-from lamin_spatial import SpatialDataCurator
+from lamindb.curators import SpatialDataCurator
 from spatialdata import SpatialData
 import bionty as bt
 import lamindb as ln
