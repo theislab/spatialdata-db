@@ -15,7 +15,7 @@ repos:
     hooks:
       - id: pyproject-fmt
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.8
+    rev: v0.9.2
     hooks:
       - id: ruff
         types_or: [python, pyi, jupyter]
@@ -44,3 +44,10 @@ repos:
           Fix the merge conflicts manually and remove the .rej files.
         language: fail
         files: '.*\.rej$'
+    - repo: https://github.com/pre-commit/mirrors-mypy
+      rev: v1.14.1
+      hooks:
+          - id: mypy
+            args: [--no-strict-optional, --ignore-missing-imports]
+            additional_dependencies:
+                ["types-setuptools", "types-requests", "types-attrs"]
