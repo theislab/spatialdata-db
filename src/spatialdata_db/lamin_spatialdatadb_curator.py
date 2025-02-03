@@ -1,20 +1,18 @@
-from lamindb.curators import SpatialDataCurator
-from spatialdata import SpatialData
 import bionty as bt
 import lamindb as ln
+from lamindb.base.types import FieldAttr
+from lamindb.curators._spatial import SpatialDataCurator
+from lamindb.models import Record
+from spatialdata import SpatialData
 
-from lnschema_core import Record
-from lnschema_core.types import FieldAttr
-from lnschema_core import (
-    Record,
-)
 
 class SpatialDataDBCurator(SpatialDataCurator):
+    """Custom Curator for SpatialDataDB"""
 
     DEFAULT_CATEGORICALS = {
         "assay": bt.ExperimentalFactor.name,
         "chemistry_version": ln.ULabel.name,
-        'organism': bt.Organism.name,
+        "organism": bt.Organism.name,
         "tissue": bt.Tissue.name,
         "disease": bt.Disease.name,
         "license": ln.ULabel.name,
@@ -29,11 +27,11 @@ class SpatialDataDBCurator(SpatialDataCurator):
         "preproc_version": "unknown",
     }
 
-    FIXED_SOURCES = {
-            # TODO: fix ontologies
-        }
+    FIXED_SOURCES = {  # type: ignore
+        # TODO: fix ontologies
+    }
 
-    DEFAULT_VAR_INDEX = {'table': bt.Gene.ensembl_gene_id}
+    DEFAULT_VAR_INDEX = {"table": bt.Gene.ensembl_gene_id}
 
     def __init__(
         self,
@@ -49,9 +47,7 @@ class SpatialDataDBCurator(SpatialDataCurator):
         sample_metadata_key: str = "sample",
     ):
         if categoricals is None:
-            categoricals = dict([(
-                sample_metadata_key, self.DEFAULT_CATEGORICALS
-            )])
+            categoricals = {sample_metadata_key: self.DEFAULT_CATEGORICALS}
 
         super().__init__(
             sdata,
