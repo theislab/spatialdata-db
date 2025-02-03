@@ -1,4 +1,5 @@
 import os
+
 import pandas as pd
 
 
@@ -17,9 +18,7 @@ def update_master_with_ids(uid_master_csv_path, file_paths):
             )
 
         print(uid_master_df)
-        master_df = uid_master_df.merge(
-            df[["uid", "id"]], on="uid", how="left", suffixes=("", "_new")
-        )
+        master_df = uid_master_df.merge(df[["uid", "id"]], on="uid", how="left", suffixes=("", "_new"))
 
         master_df["id"] = master_df["id"].combine_first(master_df["id_new"])
         print(master_df)
@@ -30,7 +29,7 @@ def update_master_with_ids(uid_master_csv_path, file_paths):
 
 
 if __name__ == "__main__":
-    master_csv_path = "data/uid_master.csv" 
+    master_csv_path = "data/uid_master.csv"
     dataset_paths = [
         "data/datasets_10x.csv",
         # tbd
