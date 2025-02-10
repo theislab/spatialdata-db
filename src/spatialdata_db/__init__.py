@@ -1,7 +1,10 @@
 from importlib.metadata import version
-from spatialdata_db.parsing import load_10x_metadata
+
 from django.core.exceptions import ImproperlyConfigured
 from lamin_utils import logger
+
+from spatialdata_db.parsing import load_10x_metadata
+
 try:
     from spatialdata_db.lamin_spatialdatadb_curator import SpatialDataDBCurator
 except ImproperlyConfigured:

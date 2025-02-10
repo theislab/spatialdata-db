@@ -1,10 +1,11 @@
 uid = "cij6u_"
 
 # CONSTANT
-from spatialdata_io import merscope
-import spatialdata as sd
-from pathlib import Path
 import shutil
+from pathlib import Path
+
+import spatialdata as sd
+from spatialdata_io import merscope
 
 DATA_DIR = Path("/lustre/groups/ml01/projects/2024_spatialdata_db/data")
 datasets_with_uid = [DATA_DIR / d.name for d in DATA_DIR.iterdir() if d.is_dir() and uid in str(d.name)]
@@ -21,7 +22,11 @@ path_write = dataset_path / f"{dataset_name}.zarr"
 print("parsing the data... ", end="")
 sdata = merscope(
     path=str(path_read),
-    vpt_outputs={"cell_by_gene": path_read, "cell_metadata": path_read, "cell_boundaries": path_read/"cell_boundaries"},
+    vpt_outputs={
+        "cell_by_gene": path_read,
+        "cell_metadata": path_read,
+        "cell_boundaries": path_read / "cell_boundaries",
+    },
 )
 print("done")
 
@@ -35,7 +40,7 @@ print("done")
 ##
 sdata = sd.SpatialData.read(path_write)
 
-with open(dataset_path / f"{dataset_name}.contents", 'w') as file:
+with open(dataset_path / f"{dataset_name}.contents", "w") as file:
     print(sdata, file=file)
 
 print(sdata)
