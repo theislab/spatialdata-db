@@ -6,7 +6,7 @@ from unittest.mock import MagicMock
 import lamindb as ln
 import pytest
 
-from spatialdata_db.integrations import store_artifact
+from spatialdata_db.integrations import store_dataset
 
 DEFAULT_FILE_NAME = "test_data.zarr"
 
@@ -27,7 +27,7 @@ def test_store_artifact_custom_path(fake_artifact, tmp_path):
     target_path = tmp_path / "custom_dir"
     target_path.mkdir()
 
-    result_path = store_artifact(artifact, path=target_path)
+    result_path = store_dataset(artifact, path=target_path)
 
     assert Path(result_path).exists()
     assert Path(result_path).parent == target_path
@@ -40,7 +40,7 @@ def test_store_artifact_rename(fake_artifact, tmp_path):
     target_path.mkdir()
 
     new_name = "renamed_data.zarr"
-    result_path = store_artifact(artifact, path=target_path, name=new_name)
+    result_path = store_dataset(artifact, path=target_path, name=new_name)
 
     assert Path(result_path).exists()
     assert Path(result_path).name == new_name
@@ -57,7 +57,7 @@ def test_store_artifact_file_not_found(tmp_path):
 
     target_path = tmp_path / "custom_dir"
     with pytest.raises(FileNotFoundError):
-        store_artifact(artifact, path=target_path)
+        store_dataset(artifact, path=target_path)
 
 
 def test_store_artifact_permission_error(fake_artifact, tmp_path):
@@ -68,7 +68,7 @@ def test_store_artifact_permission_error(fake_artifact, tmp_path):
     os.chmod(locked_dir, 0o400)  # Read-only directory
 
     with pytest.raises(PermissionError):
-        store_artifact(artifact, path=locked_dir)
+        store_dataset(artifact, path=locked_dir)
 
     os.chmod(locked_dir, 0o700)  # Restore permissions
 
@@ -84,7 +84,7 @@ def test_store_artifact_os_error(fake_artifact, monkeypatch, tmp_path):
 
     target_path = tmp_path / "custom_dir"
     with pytest.raises(OSError, match="Mocked OS error"):
-        store_artifact(artifact, path=target_path)
+        store_dataset(artifact, path=target_path)
 
 
 def test_store_artifact_overwrite_false(fake_artifact, tmp_path):
@@ -96,7 +96,7 @@ def test_store_artifact_overwrite_false(fake_artifact, tmp_path):
     existing_file.mkdir()
 
     with pytest.raises(FileExistsError):
-        store_artifact(artifact, path=target_path, overwrite=False)
+        store_dataset(artifact, path=target_path, overwrite=False)
 
 
 def test_store_artifact_overwrite_true(fake_artifact, tmp_path):
@@ -107,7 +107,7 @@ def test_store_artifact_overwrite_true(fake_artifact, tmp_path):
     existing_file = target_path / DEFAULT_FILE_NAME
     existing_file.mkdir()
 
-    result_path = store_artifact(artifact, path=target_path, overwrite=True)
+    result_path = store_dataset(artifact, path=target_path, overwrite=True)
 
     assert Path(result_path).exists()
     assert Path(result_path).name == DEFAULT_FILE_NAME

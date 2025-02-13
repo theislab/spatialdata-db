@@ -7,7 +7,7 @@ import lamindb as ln
 LAMIN_TRACK_WARNING = "! run input wasn't tracked, call `ln.track()` and re-run"
 
 
-def store_artifact(
+def store_dataset(
     artifact: ln.Artifact, path: str | Path = Path("."), name: str | None = None, overwrite: bool = False
 ) -> str:
     """

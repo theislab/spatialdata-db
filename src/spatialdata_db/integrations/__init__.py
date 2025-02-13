@@ -1,3 +1,3 @@
-from .lamindb_wrappers import store_artifact
+from .lamindb_wrappers import store_dataset
 
-__all__ = ["store_artifact"]
+__all__ = ["store_dataset"]
