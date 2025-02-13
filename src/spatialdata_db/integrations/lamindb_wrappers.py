@@ -1,38 +1,46 @@
-import warnings
 import shutil
+import warnings
 from pathlib import Path
-from typing import Optional, Union
+
 import lamindb as ln
 
 LAMIN_TRACK_WARNING = "! run input wasn't tracked, call `ln.track()` and re-run"
 
-def store_artifact(artifact: ln.Artifact, path: Union[str, Path] = Path("."), name: Optional[str] = None) -> str:
+
+def store_artifact(
+    artifact: ln.Artifact, path: str | Path = Path("."), name: str | None = None, overwrite: bool = False
+) -> str:
     """
     Store a cached artifact in a specified directory, rename it if needed, and suppress lamin's warning if the notebook is not tracked.
 
-    Parameters:
+    Parameters
+    ----------
     - artifact (lamindb.Artifact): The artifact object from lamindb.
     - path (Union[str, Path]): Directory where the cached artifact should be stored (default: ".").
     - name (Optional[str]): If provided, renames the cached artifact to this name (default: None).
+    - overwrite (bool): If True, overwrites an existing file. Defaults to False.
 
-    Returns:
+    Returns
+    -------
     - str: The absolute path to the stored artifact.
 
-    Raises:
+    Raises
+    ------
     - FileNotFoundError: If the artifact cannot be found after caching.
     - PermissionError: If moving the artifact fails due to insufficient permissions.
     - RuntimeError: If caching fails for any reason.
+    - FileExistsError: If the target file already exists and overwrite=False.
     """
     target_dir = Path(path).resolve()
     target_dir.mkdir(parents=True, exist_ok=True)
 
-    try:
-        warnings.filterwarnings("ignore", message=LAMIN_TRACK_WARNING)
-        cached_path = Path(artifact.cache()).resolve()
-    except Exception as e:
-        raise RuntimeError(f"Failed to cache artifact: {e}")
+    warnings.filterwarnings("ignore", message=LAMIN_TRACK_WARNING)
+    cached_path = Path(artifact.cache()).resolve()
 
     final_path = target_dir / (name if name else cached_path.name)
+
+    if final_path.exists() and not overwrite:
+        raise FileExistsError(f"Target file already exists: {final_path}. Use overwrite=True to replace it.")
 
     if cached_path != final_path:
         try:
