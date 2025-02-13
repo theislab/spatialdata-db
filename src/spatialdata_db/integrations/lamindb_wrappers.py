@@ -39,6 +39,8 @@ def store_artifact(artifact: ln.Artifact, path: Union[str, Path] = Path("."), na
             shutil.move(str(cached_path), str(final_path))
         except PermissionError as e:
             raise PermissionError(f"Failed to move artifact due to insufficient permissions: {e}") from e
+        except FileNotFoundError as e:
+            raise FileNotFoundError(f"Failed to find cached artifact: {e}") from e
         except OSError as e:
             raise OSError(f"Failed to move artifact due to an OS error: {e}") from e
 
