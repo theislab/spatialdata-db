@@ -31,3 +31,5 @@ __pycache__/
 Sandbox.ipynb
 test.ipynb
 *.zarr
+
+upload*
