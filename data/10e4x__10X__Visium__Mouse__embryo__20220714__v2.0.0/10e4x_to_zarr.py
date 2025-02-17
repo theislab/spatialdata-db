@@ -1,10 +1,11 @@
 uid = "10e4x_"
 
 # CONSTANT
-from spatialdata_io import visium
-import spatialdata as sd
-from pathlib import Path
 import shutil
+from pathlib import Path
+
+import spatialdata as sd
+from spatialdata_io import visium
 
 DATA_DIR = Path("/lustre/groups/ml01/projects/2024_spatialdata_db/data")
 datasets_with_uid = [DATA_DIR / d.name for d in DATA_DIR.iterdir() if d.is_dir() and uid in str(d.name)]
@@ -23,7 +24,7 @@ sdata = visium(
     path=str(path_read),
     dataset_id="CytAssist_11mm_FFPE_Mouse_Embryo",
     counts_file=str(path_read / "CytAssist_11mm_FFPE_Mouse_Embryo_filtered_feature_bc_matrix.h5"),
-    fullres_image_file=str(path_read / "spatial" /"tissue_hires_image.png"),
+    fullres_image_file=str(path_read / "spatial" / "tissue_hires_image.png"),
     tissue_positions_file=str(path_read / "spatial" / "tissue_positions.csv"),
     scalefactors_file=str(path_read / "spatial" / "scalefactors_json.json"),
 )
@@ -39,7 +40,7 @@ print("done")
 ##
 sdata = sd.SpatialData.read(path_write)
 
-with open(dataset_path / f"{dataset_name}.contents", 'w') as file:
+with open(dataset_path / f"{dataset_name}.contents", "w") as file:
     print(sdata, file=file)
 
 print(sdata)

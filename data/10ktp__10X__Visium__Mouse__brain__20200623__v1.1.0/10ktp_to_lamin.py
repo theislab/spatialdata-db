@@ -1,6 +1,7 @@
 theislab_uid = "10ktp"
 
 import lamindb as ln
+
 from spatialdata_db import load_10x_metadata
 
 ln.track("KgGzOw8PUYKO7CpM")
