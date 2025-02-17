@@ -10,27 +10,28 @@ readme = "README.md"
 license = { file = "LICENSE" }
 maintainers = [
   { name = "Tim Treis", email = "tim.treis@helmholtz-munich.de" },
+  { name = "Lea Zimmermann", email = "lea.zimmermann@helmholtz-munich.de" },
+  { name = "Lukas Heumos", email = "lukas.heumos@posteo.net" },
 ]
 authors = [
   { name = "Tim Treis" },
+  { name = "Lea Zimmermann" },
+  { name = "Lukas Heumos" },
 ]
-requires-python = ">=3.10, <3.12"
-# 3.12 attempts to install an old version of dask-image which isn't 3.12 compatible
-# See https://github.com/theislab/spatialdata-db/actions/runs/11230700843/job/31218561107?pr=35
+requires-python = ">=3.10, <3.13"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
 ]
 dependencies = [
-  "anndata",
-  # for debug logging (referenced from the issue template)
-  "session-info",
-  "lamindb[aws,bionty,jupyter]",
-  "vitessce",
+  "lamindb[aws,bionty,jupyter]>=1.0.4",
   "spatialdata",
   "spatialdata-io",
-  "spatialdata-plot"
+  "spatialdata-plot",
+  "vitessce",
+  "session-info2"
 ]
 optional-dependencies.dev = [
   "pre-commit",
