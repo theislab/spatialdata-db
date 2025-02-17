@@ -4,6 +4,30 @@ import pandas as pd
 
 
 def update_master_with_ids(uid_master_csv_path, file_paths):
+    """
+    Update a master CSV file with new ID values from a list of dataset files.
+
+    This function loads a master CSV file and updates its `id` column using
+    values from additional CSV files. If a `uid` in the master file matches a
+    `uid` in a dataset file, the `id` is updated accordingly.
+
+    Parameters
+    ----------
+    uid_master_csv_path : str
+        Path to the master CSV file containing the `uid` column.
+    file_paths : list of str
+        List of paths to dataset CSV files that contain `uid` and `id` columns.
+
+    Raises
+    ------
+    ValueError
+        If any dataset file is missing the required `uid` or `id` columns.
+
+    Returns
+    -------
+    None
+        The function updates the master CSV file in place.
+    """
     uid_master_df = pd.read_csv(uid_master_csv_path, sep=";")
 
     # Iterate over the list of file paths

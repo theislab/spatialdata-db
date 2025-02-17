@@ -30,7 +30,7 @@ uid = "10ktp"
 try:
     artifact = ln.Artifact.filter(ulabels__name=uid).one()
     artifact.delete(permanent=True)
-except:
+except:  # noqa: E722
     pass
 
 ### From here on we assume Lamin is set up correctly

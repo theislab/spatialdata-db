@@ -11,7 +11,7 @@ ln.track("KgGzOw8PUYKO7CpM")
 try:
     artifact = ln.Artifact.filter(ulabels__name=theislab_uid).one()
     artifact.delete(permanent=True)
-except:
+except:  # noqa: E722
     pass
 
 DATASET_PATH = "/lustre/groups/ml01/projects/2024_spatialdata_db/data/10ktp__10X__Visium__Mouse__brain__20200623__v1.1.0/10ktp__10X__Visium__Mouse__brain__20200623__v1.1.0.zarr"

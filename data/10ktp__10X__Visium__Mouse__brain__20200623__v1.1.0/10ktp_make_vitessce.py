@@ -1,9 +1,8 @@
 import lamindb as ln
-
-ln.context.track("5PYtTxDE7LvE")
-
 from lamindb.integrations import save_vitessce_config
 from vitessce import SpatialDataWrapper, VitessceConfig
+
+ln.context.track("5PYtTxDE7LvE")
 
 theislab_uid = "10ktp"
 
