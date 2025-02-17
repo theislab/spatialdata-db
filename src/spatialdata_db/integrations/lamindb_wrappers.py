@@ -1,17 +1,14 @@
 import shutil
-import warnings
 from pathlib import Path
 
 import lamindb as ln
-
-LAMIN_TRACK_WARNING = "! run input wasn't tracked, call `ln.track()` and re-run"
 
 
 def store_dataset(
     artifact: ln.Artifact, path: str | Path = Path("."), name: str | None = None, overwrite: bool = False
 ) -> str:
     """
-    Store a cached artifact in a specified directory, rename it if needed, and suppress lamin's warning if the notebook is not tracked.
+    Store a cached artifact in a specified directory, rename it if needed.
 
     Parameters
     ----------
@@ -34,8 +31,8 @@ def store_dataset(
     target_dir = Path(path).resolve()
     target_dir.mkdir(parents=True, exist_ok=True)
 
-    warnings.filterwarnings("ignore", message=LAMIN_TRACK_WARNING)
-    cached_path = Path(artifact.cache()).resolve()
+    cached_path = artifact.cache()
+    cached_path = Path(cached_path).resolve()
 
     final_path = target_dir / (name if name else cached_path.name)
 
