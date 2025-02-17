@@ -1,10 +1,10 @@
-uid = "10ae2_"
-
-# CONSTANT
-from spatialdata_io import xenium
-import spatialdata as sd
-from pathlib import Path
 import shutil
+from pathlib import Path
+
+import spatialdata as sd
+from spatialdata_io import xenium
+
+uid = "10ae2_"
 
 DATA_DIR = Path("/lustre/groups/ml01/projects/2024_spatialdata_db/data")
 datasets_with_uid = [DATA_DIR / d.name for d in DATA_DIR.iterdir() if d.is_dir() and uid in str(d.name)]
@@ -38,7 +38,7 @@ print("done")
 ##
 sdata = sd.SpatialData.read(path_write)
 
-with open(dataset_path / f"{dataset_name}.contents", 'w') as file:
+with open(dataset_path / f"{dataset_name}.contents", "w") as file:
     print(sdata, file=file)
 
 print(sdata)

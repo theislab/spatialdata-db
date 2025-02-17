@@ -1,14 +1,17 @@
-theislab_uid = "10ktp"
-
+# Associate metadata as features
+import bionty as bt
 import lamindb as ln
+
 from spatialdata_db import load_10x_metadata
+
+theislab_uid = "10ktp"
 
 ln.track("KgGzOw8PUYKO7CpM")
 
 try:
     artifact = ln.Artifact.filter(ulabels__name=theislab_uid).one()
     artifact.delete(permanent=True)
-except:
+except:  # noqa: E722
     pass
 
 DATASET_PATH = "/lustre/groups/ml01/projects/2024_spatialdata_db/data/10ktp__10X__Visium__Mouse__brain__20200623__v1.1.0/10ktp__10X__Visium__Mouse__brain__20200623__v1.1.0.zarr"
@@ -26,9 +29,6 @@ artifact.labels.add(tuid)
 all_metadata_10x = load_10x_metadata()
 assert len(all_metadata_10x.query(f"uid == '{theislab_uid}'")) == 1
 metadata = all_metadata_10x.query(f"uid == '{theislab_uid}'").iloc[0]
-
-# Associate metadata as features
-import bionty as bt
 
 feature_lo = ln.Feature.lookup()
 organism_lo = bt.Organism.public().lookup()
