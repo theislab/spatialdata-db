@@ -1,0 +1,27 @@
+{
+    "version": "1.0.16",
+    "name": "Visium + Xenium demo",
+    "description": "From https://spatialdata.scverse.org/en/latest/tutorials/notebooks/datasets/README.html",
+    "datasets": [
+        {
+            "uid": "A",
+            "name": "Visium demo",
+            "files": [
+                {
+                    "fileType": "spatialdata.zarr",
+                    "url": "https://scverse-spatial-eu-central-1.s3-eu-central-1.amazonaws.com/.lamindb/V03ZNXPGPZLMEXMj.zarr",
+                    "options": {
+                        "obsSpots": {
+                            "path": "shapes/Visium_Adult_Mouse_Brain",
+                            "tablePath": "tables/table",
+                            "region": "region"
+                        },
+                        "image": {
+                            "path": "images/Visium_Adult_Mouse_Brain_hires_image"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
