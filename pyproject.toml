@@ -18,7 +18,7 @@ authors = [
   { name = "Lea Zimmermann" },
   { name = "Lukas Heumos" },
 ]
-requires-python = ">=3.10, <3.13"
+requires-python = ">=3.10,<3.13"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.10",
@@ -27,11 +27,11 @@ classifiers = [
 ]
 dependencies = [
   "lamindb[aws,bionty,jupyter]>=1.0.4",
+  "session-info2",
   "spatialdata",
   "spatialdata-io",
   "spatialdata-plot",
   "vitessce",
-  "session-info2"
 ]
 optional-dependencies.dev = [
   "pre-commit",
