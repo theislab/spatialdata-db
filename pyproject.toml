@@ -27,6 +27,7 @@ classifiers = [
 ]
 dependencies = [
   "lamindb[aws,bionty,jupyter]>=1.0.4",
+  "numba>=0.61",
   "session-info2",
   "spatialdata",
   "spatialdata-io",
