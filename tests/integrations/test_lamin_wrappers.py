@@ -10,6 +10,10 @@ from spatialdata_db.integrations import store_dataset
 
 DEFAULT_FILE_NAME = "test_data.zarr"
 
+# Only initialize a test instance in GitHub Actions
+if os.getenv("GITHUB_ACTIONS") == "true":
+    ln.setup.init(storage="./test_lamindb")
+
 
 @pytest.fixture(scope="function")
 def fake_artifact(tmp_path):
