@@ -12,7 +12,7 @@ import lamindb as ln
 # ln.settings.transform.stem_uid = "nkdyAzUAOgH70000"
 # ln.settings.transform.version = "3"
 
-# (spatialdata-workshop) [lea.zimmermann@cpusrv39 10ktp__10X__Visium__Mouse__brain__20200623__v1.1.0]$ python 10ktp_to_lamin.py 
+# (spatialdata-workshop) [lea.zimmermann@cpusrv39 10ktp__10X__Visium__Mouse__brain__20200623__v1.1.0]$ python 10ktp_to_lamin.py
 # → connected lamindb: scverse/spatialdata-db
 # ✗ you already have a transform with key '10ktp_to_lamin.py' ('KgGzOw8PUYKO7CpM')
 #   - to make a revision, call `ln.track('KgGzOw8PUYKO7CpN')`
@@ -20,7 +20,7 @@ import lamindb as ln
 # ln.track("KgGzOw8PUYKO7CpM")
 
 # after renaming:
-# (spatialdata-workshop) [lea.zimmermann@cpusrv39 10ktp__10X__Visium__Mouse__brain__20200623__v1.1.0]$ python 10ktp_to_lamin_test.py 
+# (spatialdata-workshop) [lea.zimmermann@cpusrv39 10ktp__10X__Visium__Mouse__brain__20200623__v1.1.0]$ python 10ktp_to_lamin_test.py
 # → connected lamindb: scverse/spatialdata-db
 # ✗ to track this script, copy & paste `ln.track("b2q7qhDuWCQ40000")` and re-run
 ln.track("b2q7qhDuWCQ40000")
@@ -35,7 +35,7 @@ except:
 DATASET_PATH = "/lustre/groups/ml01/projects/2024_spatialdata_db/data/10ktp__10X__Visium__Mouse__brain__20200623__v1.1.0/10ktp__10X__Visium__Mouse__brain__20200623__v1.1.0.spatialdata.zarr"
 
 artifact = ln.Artifact(DATASET_PATH, description="10X, Visium, Mouse, Brain")
-artifact.save() # transfers to Lamin
+artifact.save()  # transfers to Lamin
 
 # Associate ID with the artifact so we can retrieve afterwards
 tuid_parent = ln.ULabel.filter(name="theislab unique ID").one()
