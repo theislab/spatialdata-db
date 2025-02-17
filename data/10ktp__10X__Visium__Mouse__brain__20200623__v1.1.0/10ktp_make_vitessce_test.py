@@ -1,6 +1,3 @@
-# ADJUST
-uid = "10ktp"
-
 # Setup before running this script for the first time
 #   1) Ensure you have a lamin.ai account
 #   2) Run `lamin login` to authenticate
@@ -8,11 +5,13 @@ uid = "10ktp"
 #   4) Execute script once and replace the stem_uid for this file
 
 import lamindb as ln
-
-ln.track("pGUZzFIVBEPc0000")
-
 from lamindb.integrations import save_vitessce_config
 from vitessce import SpatialDataWrapper, VitessceConfig
+
+# ADJUST
+uid = "10ktp"
+
+ln.track("pGUZzFIVBEPc0000")
 
 artifact = ln.Artifact.filter(ulabels__name=uid).one()
 

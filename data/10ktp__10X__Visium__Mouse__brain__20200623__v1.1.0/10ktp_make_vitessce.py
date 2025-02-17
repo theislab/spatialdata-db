@@ -1,11 +1,11 @@
-theislab_uid = "10ktp"
-
 import lamindb as ln
 
 ln.context.track("5PYtTxDE7LvE")
 
 from lamindb.integrations import save_vitessce_config
 from vitessce import SpatialDataWrapper, VitessceConfig
+
+theislab_uid = "10ktp"
 
 artifact = ln.Artifact.filter(ulabels__name=theislab_uid).one()
 

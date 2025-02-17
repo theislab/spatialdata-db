@@ -1,13 +1,12 @@
-# ADJUST
-uid = "10ktp"
-
 # Setup before running this script for the first time
 #   1) Ensure you have a lamin.ai account
 #   2) Run `lamin login` to authenticate
 #   3) Activate lamin db connection with `lamin load scverse/spatialdata-db`
 #   4) Execute script once and replace the stem_uid for this file
 
+import bionty as bt
 import lamindb as ln
+import pandas as pd
 
 # ln.settings.transform.stem_uid = "nkdyAzUAOgH70000"
 # ln.settings.transform.version = "3"
@@ -24,6 +23,9 @@ import lamindb as ln
 # → connected lamindb: scverse/spatialdata-db
 # ✗ to track this script, copy & paste `ln.track("b2q7qhDuWCQ40000")` and re-run
 ln.track("b2q7qhDuWCQ40000")
+
+# ADJUST
+uid = "10ktp"
 
 try:
     artifact = ln.Artifact.filter(ulabels__name=uid).one()
@@ -43,16 +45,11 @@ tuid = ln.ULabel(name=uid).save()
 tuid.parents.add(tuid_parent)
 artifact.labels.add(tuid)
 
-# load 10X metadata we have on disk
-import pandas as pd
-
 all_metadata_10x = pd.read_csv("../../utils/data/10x_datasets.csv", sep=";")
 assert len(all_metadata_10x.query(f"uid == '{uid}'")) == 1
 metadata = all_metadata_10x.query(f"uid == '{uid}'").iloc[0]
 
 # Associate metadata as features
-import bionty as bt
-
 feature_lo = ln.Feature.lookup()
 organism_lo = bt.Organism.public().lookup()
 tissue_lo = bt.Tissue.public().lookup()

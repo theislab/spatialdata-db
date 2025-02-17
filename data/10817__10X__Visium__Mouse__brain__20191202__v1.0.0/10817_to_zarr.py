@@ -1,11 +1,10 @@
-uid = "10817_"
-
-# CONSTANT
 import shutil
 from pathlib import Path
 
 import spatialdata as sd
 from spatialdata_io import visium
+
+uid = "10817_"
 
 DATA_DIR = Path("/lustre/groups/ml01/projects/2024_spatialdata_db/data")
 datasets_with_uid = [DATA_DIR / d.name for d in DATA_DIR.iterdir() if d.is_dir() and uid in str(d.name)]
