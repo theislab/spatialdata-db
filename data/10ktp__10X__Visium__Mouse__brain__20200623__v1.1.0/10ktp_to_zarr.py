@@ -1,11 +1,12 @@
 # ADJUST
-uid = "10ktp_"
 
-# CONSTANT
-from spatialdata_io import visium
-import spatialdata as sd
-from pathlib import Path
 import shutil
+from pathlib import Path
+
+import spatialdata as sd
+from spatialdata_io import visium
+
+uid = "10ktp_"
 
 DATA_DIR = Path("/lustre/groups/ml01/projects/2024_spatialdata_db/data")
 datasets_with_uid = [DATA_DIR / d.name for d in DATA_DIR.iterdir() if d.is_dir() and uid in str(d.name)]
@@ -20,8 +21,8 @@ path_write = dataset_path / f"{dataset_name}.zarr"
 
 ##
 print("parsing the data... ", end="")
-# had to extract 
-#   - Visium_Adult_Mouse_Brain_spatial.tar.gz 
+# had to extract
+#   - Visium_Adult_Mouse_Brain_spatial.tar.gz
 sdata = visium(
     path=path_read,
     dataset_id="Visium_Adult_Mouse_Brain",
@@ -42,7 +43,7 @@ print("done")
 ##
 sdata = sd.SpatialData.read(path_write)
 
-with open(dataset_path / f"{dataset_name}.contents", 'w') as file:
+with open(dataset_path / f"{dataset_name}.contents", "w") as file:
     print(sdata, file=file)
 
 print(sdata)

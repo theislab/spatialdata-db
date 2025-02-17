@@ -33,3 +33,5 @@ test.ipynb
 *.zarr
 
 upload*
+
+/local_scripts/
