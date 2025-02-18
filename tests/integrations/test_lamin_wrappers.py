@@ -60,17 +60,46 @@ def test_store_artifact_file_not_found(tmp_path):
         store_dataset(artifact, path=target_path)
 
 
-def test_store_artifact_permission_error(mock_artifact, tmp_path):
+def test_store_artifact_reading_permission_error(mock_artifact, tmp_path):
     """Test that PermissionError is raised if the target directory is not writable."""
     artifact = mock_artifact
     locked_dir = tmp_path / "locked"
     locked_dir.mkdir()
     os.chmod(locked_dir, 0o400)  # Read-only directory
 
-    with pytest.raises(PermissionError):
+    with pytest.raises(PermissionError, match="Insufficient permissions"):
         store_dataset(artifact, path=locked_dir)
 
     os.chmod(locked_dir, 0o700)  # Restore permissions
+
+
+def test_store_artifact_directory_creation_permission_error(mock_artifact, tmp_path):
+    """Test that PermissionError is raised if creating the target directory fails due to insufficient permissions."""
+    locked_parent = tmp_path / "locked_parent"
+    locked_parent.mkdir()
+    os.chmod(locked_parent, 0o400)  # Read-only directory
+
+    locked_dir = locked_parent / "subdir"
+
+    with pytest.raises(PermissionError, match="Failed to create the target directory"):
+        store_dataset(mock_artifact, path=locked_dir)
+
+    os.chmod(locked_parent, 0o700)  # Restore permissions
+
+
+def test_store_artifact_move_permission_error(mock_artifact, monkeypatch, tmp_path):
+    """Test that PermissionError is raised if moving the artifact fails due to insufficient permissions."""
+    artifact = mock_artifact
+    target_path = tmp_path / "custom_dir"
+    target_path.mkdir()
+
+    def mock_move(*args, **kwargs):
+        raise PermissionError("Mocked permission error")
+
+    monkeypatch.setattr(shutil, "move", mock_move)  # Mock shutil.move to always raise PermissionError
+
+    with pytest.raises(PermissionError, match="Failed to move artifact due to insufficient permissions"):
+        store_dataset(artifact, path=target_path)
 
 
 def test_store_artifact_os_error(mock_artifact, monkeypatch, tmp_path):

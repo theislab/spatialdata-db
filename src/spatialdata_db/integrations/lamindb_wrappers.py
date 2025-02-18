@@ -29,15 +29,22 @@ def store_dataset(
     - FileExistsError: If the target file already exists and overwrite=False.
     """
     target_dir = Path(path).resolve()
-    target_dir.mkdir(parents=True, exist_ok=True)
+
+    try:
+        target_dir.mkdir(parents=True, exist_ok=True)
+    except PermissionError as e:
+        raise PermissionError(f"Failed to create the target directory due to insufficient permissions: {e}") from e
 
     cached_path = artifact.cache()
     cached_path = Path(cached_path).resolve()
 
     final_path = target_dir / (name if name else cached_path.name)
 
-    if final_path.exists() and not overwrite:
-        raise FileExistsError(f"Target file already exists: {final_path}. Use overwrite=True to replace it.")
+    try:
+        if final_path.exists() and not overwrite:
+            raise FileExistsError(f"Target file already exists: {final_path}. Use overwrite=True to replace it.")
+    except PermissionError as e:
+        raise PermissionError(f"Insufficient permissions: {e}") from e
 
     if cached_path != final_path:
         try:
