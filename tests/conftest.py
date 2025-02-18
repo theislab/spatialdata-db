@@ -2,7 +2,7 @@ import lamindb.setup as ln_setup
 
 
 def pytest_sessionstart(session):
-    """Initialize LamindB before any test runs (ensures it's available for imports)."""
+    """Initialize LamindB before any test runs."""
     print("\n🔹 Setting up LamindB test instance...")
     ln_setup.init(storage="lamin_test_instance", name="lamin_test_instance", schema="bionty")
 

@@ -24,7 +24,7 @@ def mock_artifact(tmp_path):
 def test_store_artifact_custom_path(mock_artifact, tmp_path):
     """Test storing artifact in a provided directory."""
     artifact = mock_artifact
-    target_path = tmp_path / "custom_dir"
+    target_path = tmp_path / "target_dir"
     target_path.mkdir()
 
     result_path = store_dataset(artifact, path=target_path)
@@ -36,7 +36,7 @@ def test_store_artifact_custom_path(mock_artifact, tmp_path):
 def test_store_artifact_rename(mock_artifact, tmp_path):
     """Test storing artifact with a custom name."""
     artifact = mock_artifact
-    target_path = tmp_path / "custom_dir"
+    target_path = tmp_path / "target_dir"
     target_path.mkdir()
 
     new_name = "renamed_data.zarr"
@@ -55,13 +55,13 @@ def test_store_artifact_file_not_found(tmp_path):
     # Explicitly add the `cache` method
     artifact.cache = MagicMock(return_value=str(zarr_path))
 
-    target_path = tmp_path / "custom_dir"
+    target_path = tmp_path / "target_dir"
     with pytest.raises(FileNotFoundError):
         store_dataset(artifact, path=target_path)
 
 
 def test_store_artifact_reading_permission_error(mock_artifact, tmp_path):
-    """Test that PermissionError is raised if the target directory is not writable."""
+    """Test that PermissionError is raised if the user has insufficient permissions for the target directory."""
     artifact = mock_artifact
     locked_dir = tmp_path / "locked"
     locked_dir.mkdir()
@@ -90,7 +90,7 @@ def test_store_artifact_directory_creation_permission_error(mock_artifact, tmp_p
 def test_store_artifact_move_permission_error(mock_artifact, monkeypatch, tmp_path):
     """Test that PermissionError is raised if moving the artifact fails due to insufficient permissions."""
     artifact = mock_artifact
-    target_path = tmp_path / "custom_dir"
+    target_path = tmp_path / "target_dir"
     target_path.mkdir()
 
     def mock_move(*args, **kwargs):
@@ -111,7 +111,7 @@ def test_store_artifact_os_error(mock_artifact, monkeypatch, tmp_path):
 
     monkeypatch.setattr(shutil, "move", mock_move)
 
-    target_path = tmp_path / "custom_dir"
+    target_path = tmp_path / "target_dir"
     with pytest.raises(OSError, match="Mocked OS error"):
         store_dataset(artifact, path=target_path)
 
