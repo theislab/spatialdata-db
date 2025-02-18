@@ -19,6 +19,7 @@ __pycache__/
 
 # Tests and coverage
 /data/
+/scripts/data/
 /node_modules/
 
 # docs
@@ -29,5 +30,8 @@ __pycache__/
 
 Sandbox.ipynb
 test.ipynb
+*.zarr
 
 upload*
+
+/local_scripts/
