@@ -1,13 +1,13 @@
-import lamindb_setup as ln_setup
-import pytest
+import lamindb.setup as ln_setup
 
 
-@pytest.fixture(scope="session")
-def setup_instance():
-    """
-    Initialize a LamindB test instance before all tests start.
-    Cleans up after the test session ends.
-    """
-    ln_setup.init(storage="tests", name="tests", schema="bionty")
-    yield  # Run tests using this instance
-    ln_setup.delete("tests", force=True, require_empty=False)
+def pytest_sessionstart(session):
+    """Initialize LamindB before any test runs (ensures it's available for imports)."""
+    print("\n🔹 Setting up LamindB test instance...")
+    ln_setup.init(storage="lamin_test_instance", name="lamin_test_instance", schema="bionty")
+
+
+def pytest_sessionfinish(session):
+    """Clean up LamindB after all tests are completed."""
+    print("\n🔹 Cleaning up LamindB test instance after all tests are done...")
+    ln_setup.delete("lamin_test_instance", force=True, require_empty=False)

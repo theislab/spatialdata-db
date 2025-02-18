@@ -10,13 +10,9 @@ from spatialdata_db.integrations import store_dataset
 
 DEFAULT_FILE_NAME = "test_data.zarr"
 
-# Only initialize a test instance in GitHub Actions
-if os.getenv("GITHUB_ACTIONS") == "true":
-    ln.setup.init(storage="./test_lamindb")
-
 
 @pytest.fixture(scope="function")
-def fake_artifact(tmp_path):
+def mock_artifact(tmp_path):
     artifact = MagicMock(spec=ln.Artifact)  # Mock with ln.Artifact attributes
     zarr_path = tmp_path / DEFAULT_FILE_NAME
     zarr_path.mkdir()
@@ -25,9 +21,9 @@ def fake_artifact(tmp_path):
     return artifact
 
 
-def test_store_artifact_custom_path(fake_artifact, tmp_path):
+def test_store_artifact_custom_path(mock_artifact, tmp_path):
     """Test storing artifact in a provided directory."""
-    artifact = fake_artifact
+    artifact = mock_artifact
     target_path = tmp_path / "custom_dir"
     target_path.mkdir()
 
@@ -37,9 +33,9 @@ def test_store_artifact_custom_path(fake_artifact, tmp_path):
     assert Path(result_path).parent == target_path
 
 
-def test_store_artifact_rename(fake_artifact, tmp_path):
+def test_store_artifact_rename(mock_artifact, tmp_path):
     """Test storing artifact with a custom name."""
-    artifact = fake_artifact
+    artifact = mock_artifact
     target_path = tmp_path / "custom_dir"
     target_path.mkdir()
 
@@ -64,9 +60,9 @@ def test_store_artifact_file_not_found(tmp_path):
         store_dataset(artifact, path=target_path)
 
 
-def test_store_artifact_permission_error(fake_artifact, tmp_path):
+def test_store_artifact_permission_error(mock_artifact, tmp_path):
     """Test that PermissionError is raised if the target directory is not writable."""
-    artifact = fake_artifact
+    artifact = mock_artifact
     locked_dir = tmp_path / "locked"
     locked_dir.mkdir()
     os.chmod(locked_dir, 0o400)  # Read-only directory
@@ -77,9 +73,9 @@ def test_store_artifact_permission_error(fake_artifact, tmp_path):
     os.chmod(locked_dir, 0o700)  # Restore permissions
 
 
-def test_store_artifact_os_error(fake_artifact, monkeypatch, tmp_path):
+def test_store_artifact_os_error(mock_artifact, monkeypatch, tmp_path):
     """Test that OSError is raised if a simulated system error occurs."""
-    artifact = fake_artifact
+    artifact = mock_artifact
 
     def mock_move(*args, **kwargs):
         raise OSError("Mocked OS error")
@@ -91,9 +87,9 @@ def test_store_artifact_os_error(fake_artifact, monkeypatch, tmp_path):
         store_dataset(artifact, path=target_path)
 
 
-def test_store_artifact_overwrite_false(fake_artifact, tmp_path):
+def test_store_artifact_overwrite_false(mock_artifact, tmp_path):
     """Test that FileExistsError is raised if overwrite=False and file exists."""
-    artifact = fake_artifact
+    artifact = mock_artifact
     target_path = tmp_path / "existing_dir"
     target_path.mkdir()
     existing_file = target_path / DEFAULT_FILE_NAME
@@ -103,9 +99,9 @@ def test_store_artifact_overwrite_false(fake_artifact, tmp_path):
         store_dataset(artifact, path=target_path, overwrite=False)
 
 
-def test_store_artifact_overwrite_true(fake_artifact, tmp_path):
+def test_store_artifact_overwrite_true(mock_artifact, tmp_path):
     """Test that artifact is stored correctly when overwrite=True."""
-    artifact = fake_artifact
+    artifact = mock_artifact
     target_path = tmp_path / "existing_dir"
     target_path.mkdir()
     existing_file = target_path / DEFAULT_FILE_NAME
