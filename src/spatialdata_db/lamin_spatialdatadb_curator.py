@@ -4,39 +4,23 @@ from lamindb.base.types import FieldAttr
 from lamindb.curators._spatial import SpatialDataCurator
 from lamindb.models import Record
 from spatialdata import SpatialData
+from .fields import SpatialDataDBFields as fields
 
 
 class SpatialDataDBCurator(SpatialDataCurator):
     """Custom Curator for SpatialDataDB"""
 
-    DEFAULT_CATEGORICALS = {
-        "assay": bt.ExperimentalFactor.name,
-        "chemistry_version": ln.ULabel.name,
-        "organism": bt.Organism.name,
-        "tissue": bt.Tissue.name,
-        "disease": bt.Disease.name,
-        "license": ln.ULabel.name,
-        "preproc_version": ln.ULabel.name,
-    }
-
-    DEFAULT_VALUES = {
-        "license": "unknown",
-        "development_stage": "unknown",
-        "self_reported_ethnicity": "unknown",
-        "sex": "unknown",
-        "preproc_version": "unknown",
-    }
+    DEFAULT_CATEGORICALS = fields.SAMPLE_LEVEL_FIELDS
+    DEFAULT_VALUES = fields.SAMPLE_LEVEL_FIELD_DEFAULTS
 
     FIXED_SOURCES = {  # type: ignore
         # TODO: fix ontologies
     }
 
-    DEFAULT_VAR_INDEX = {"table": bt.Gene.ensembl_gene_id}
-
     def __init__(
         self,
         sdata: SpatialData,
-        var_index: dict[str, FieldAttr] = DEFAULT_VAR_INDEX,
+        var_index: dict[str, FieldAttr] = fields.VAR_INDEX_DEFAULT,
         categoricals: dict[str, dict[str, FieldAttr]] | None = None,
         using_key: str | None = None,
         verbosity: str = "hint",
