@@ -1,0 +1,3 @@
+uid;Dataset Url;error
+1015d;https://www.10xgenomics.com/datasets/xenium-ffpe-human-breast-with-custom-add-on-panel-1-standard;"can only concatenate str (not ""NoneType"") to str"
+10dcv;https://www.10xgenomics.com/datasets/ffpe-human-breast-with-Pre-Designed-panel-1-standard;404 Client Error: Not Found for url: https://www.10xgenomics.com/datasets/ffpe-human-breast-with-Pre-Designed-panel-1-standard

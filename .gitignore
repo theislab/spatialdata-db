@@ -32,6 +32,6 @@ Sandbox.ipynb
 test.ipynb
 *.zarr
 
-upload*
-
 /local_scripts/
+
+/merscope
