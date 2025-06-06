@@ -5,6 +5,7 @@
 - Replicate: specify which replicate or sub-sample of a sample (eg. Description = 'Xenium Mouse Brain', Replicate = 'FF' -->  will be stored as 'Xenium Mouse Brain (FF)')
 
 2. run 'upload.py'
+- specify data_path: the path that contains your data in subfolders starting with the respective 'uid' of the metadata .csv
 - dry-run runs the curation without uploading the dataset
 - error and update logs are created after the run
 
