@@ -1,8 +1,9 @@
 # How to upload datasets
-1. you need a .csv file with your collected metadata (columns should have the names of the features in the metadata schema) + three specific columns
+1. you need a .csv file with your collected metadata (columns should have the names of the features in the metadata schema) + four specific columns
 - uid: downloaded datasets and metadata rows are associated via uid --> you need a column 'uid' in your metadata file and a folder on the cluster that starts with the uid and contains the converted .zarr file
 - Description: the description to be added
 - Replicate: specify which replicate or sub-sample of a sample (eg. Description = 'Xenium Mouse Brain', Replicate = 'FF' -->  will be stored as 'Xenium Mouse Brain (FF)')
+- Collection Description: if you want to add the dataset to a certain collection, add the name of the collection here. Currently, the datasets are not automatically bundled, but that will change in the future
 
 2. run 'upload.py'
 - specify data_path: the path that contains your data in subfolders starting with the respective 'uid' of the metadata .csv
