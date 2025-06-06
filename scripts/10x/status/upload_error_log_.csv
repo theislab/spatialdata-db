@@ -1,0 +1,38 @@
+UID,Error Message
+1015d,nothing found at path ''
+10vtf,"1 term not validated in feature 'Staining Method': 'DAPI|antibodies'
+    → fix typos, remove non-existent values, or save terms via: curator.cat.add_new_from('Staining Method')
+    → a valid label for subtype 'Staining Method' has to be one of ['H&E', 'IF', 'DAPI']"
+101cw,"1 term not validated in feature 'Staining Method': 'DAPI|antibodies'
+    → fix typos, remove non-existent values, or save terms via: curator.cat.add_new_from('Staining Method')
+    → a valid label for subtype 'Staining Method' has to be one of ['H&E', 'IF', 'DAPI']"
+10wth,"1 term not validated in feature 'Staining Method': 'DAPI|antibodies'
+    → fix typos, remove non-existent values, or save terms via: curator.cat.add_new_from('Staining Method')
+    → a valid label for subtype 'Staining Method' has to be one of ['H&E', 'IF', 'DAPI']"
+104dm,"1 term not validated in feature 'Instrument(s)': 'Illumina NovaSeq with NovaSeq S4 Reagent Kit (200 cycles)'
+    → fix typos, remove non-existent values, or save terms via: curator.cat.add_new_from('Instrument(s)')
+    → a valid label for subtype 'Instrument' has to be one of ['Xenium Analyzer', 'Illumina NovaSeq', 'Visium CytAssist', 'Illumina NovaSeq 6000']"
+10p5f,"1 term not validated in feature 'Instrument(s)': 'Illumina NovaSeq with NovaSeq S4 Reagent Kit (200 cycles)'
+    → fix typos, remove non-existent values, or save terms via: curator.cat.add_new_from('Instrument(s)')
+    → a valid label for subtype 'Instrument' has to be one of ['Xenium Analyzer', 'Illumina NovaSeq', 'Visium CytAssist', 'Illumina NovaSeq 6000']"
+10k5p,"1 term not validated in feature 'Instrument(s)': 'Illumina NovaSeq 600'
+    → fix typos, remove non-existent values, or save terms via: curator.cat.add_new_from('Instrument(s)')
+    → a valid label for subtype 'Instrument' has to be one of ['Xenium Analyzer', 'Illumina NovaSeq', 'Visium CytAssist', 'Illumina NovaSeq 6000']"
+10rxw,"1 term not validated in feature 'Staining Method': 'antibodies|DAPI'
+    → fix typos, remove non-existent values, or save terms via: curator.cat.add_new_from('Staining Method')
+    → a valid label for subtype 'Staining Method' has to be one of ['H&E', 'IF', 'DAPI']"
+10tyd,"1 term not validated in feature 'Staining Method': 'antibodies|DAPI'
+    → fix typos, remove non-existent values, or save terms via: curator.cat.add_new_from('Staining Method')
+    → a valid label for subtype 'Staining Method' has to be one of ['H&E', 'IF', 'DAPI']"
+10j0z,"1 term not validated in feature 'Staining Method': 'antibodies|DAPI'
+    → fix typos, remove non-existent values, or save terms via: curator.cat.add_new_from('Staining Method')
+    → a valid label for subtype 'Staining Method' has to be one of ['H&E', 'IF', 'DAPI']"
+104ee,"1 term not validated in feature 'Instrument(s)': 'Illumina NovaSeq 600'
+    → fix typos, remove non-existent values, or save terms via: curator.cat.add_new_from('Instrument(s)')
+    → a valid label for subtype 'Instrument' has to be one of ['Xenium Analyzer', 'Illumina NovaSeq', 'Visium CytAssist', 'Illumina NovaSeq 6000']"
+10wv1,"1 term not validated in feature 'Instrument(s)': 'Illumina NovaSeq 600'
+    → fix typos, remove non-existent values, or save terms via: curator.cat.add_new_from('Instrument(s)')
+    → a valid label for subtype 'Instrument' has to be one of ['Xenium Analyzer', 'Illumina NovaSeq', 'Visium CytAssist', 'Illumina NovaSeq 6000']"
+10dcv,list index out of range
+10i70,error when reading sdata object
+10uxy,error when reading sdata object
