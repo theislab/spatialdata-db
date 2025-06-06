@@ -134,6 +134,22 @@ def main(args):
 
                 logger.add_upload_log(uid, artifact.uid)
 
+                # vc = vit.VitessceConfig(
+                #     schema_version="1.0.17",
+                #     description=description,
+                # )
+                
+                # dataset = vc.add_dataset(name=description, uid=uid).add_object(
+                #     vit.SpatialDataWrapper(
+                #         sdata_artifact=artifact,
+                #         image_path=path_to_your_default_image_eg_the_first_one))
+                
+                # spatial = vc.add_view("spatialBeta", dataset=dataset)
+                
+                # sdata_vc_artifact = ln.integrations.save_vitessce_config(
+                #     vc, description=f"View {description}",
+                # )
+
         except Exception as e:
             logger.add_error_record(uid, str(e))
             continue
