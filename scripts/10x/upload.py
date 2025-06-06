@@ -21,6 +21,19 @@ from utils import (
 METADATA_GENERAL_KEY = "metadata_general"
 METADATA_XENIUM_KEY = "metadata_xenium"
 METADATA_VISIUM_KEY = "metadata_visium"
+# TODO: (new tech) add metadata key for new tech
+
+AVAILABLE_SCHEMAS = {
+    'xenium': {
+        'specific': ln.Schema.get(name='XeniumSpecifc'),
+        'composite': ln.Schema.get(name='Xenium'),
+    },
+    'visium': {
+        'specific': ln.Schema.get(name='VisiumSpecifc'),
+        'composite': ln.Schema.get(name='Visium'),
+    }
+    # TODO: (new tech) add schema name for specific and composite schemas of new techs
+}
 
 def main(args):
     data_path = Path(args.data_path)
@@ -30,7 +43,7 @@ def main(args):
     metadata = pd.read_csv(metadata_path, sep=';', index_col='uid')
     techs = set(metadata['Assay'].str.lower().unique())
 
-    schemas, features, is_optional, non_categorical, type_lookup = get_schema_configs_for_techs(techs)
+    schemas, features, is_optional, non_categorical, type_lookup = get_schema_configs_for_techs(techs, AVAILABLE_SCHEMAS)
 
     logger = Logger()
     write_processor = WriteProcessor()
@@ -78,6 +91,8 @@ def main(args):
                 sdata.attrs[METADATA_VISIUM_KEY] = {
                     k: v for k, v in metadata_cleaned.items() if k in features['visium']
                 }
+
+            # TODO: (new tech) if there're tech specific actions, add them here
 
             case _:
                 logger.add_error_record(uid, f"Assay {assay} not yet supported. Skipping dataset.")

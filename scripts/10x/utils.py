@@ -120,7 +120,8 @@ def correct_cell_radii(sdata: sd.SpatialData, CELL_CIRCLES="cell_circles", TABLE
     return
 
 def get_schema_configs_for_techs(
-    techs: List[str]
+    techs: List[str],
+    available_schemas: Dict[str, ln.Schema] = None
 ) -> Tuple[
     Dict[str, list],
     Dict[str, Set[str]],
@@ -144,19 +145,8 @@ def get_schema_configs_for_techs(
     non_categorical = {}
     type_lookup = {}
 
-    available_schemas = {
-        'xenium': {
-            'specific': ln.Schema.get(name='XeniumSpecifc'),
-            'base': ln.Schema.get(name='Xenium'),
-        },
-        'visium': {
-            'specific': ln.Schema.get(name='VisiumSpecifc'),
-            'base': ln.Schema.get(name='Visium'),
-        }
-    }
-
     schemas = {
-        tech: available_schemas[tech]['base']
+        tech: available_schemas[tech]['composite']
         for tech in techs
         if tech in available_schemas
     }
