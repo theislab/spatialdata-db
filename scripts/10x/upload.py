@@ -21,6 +21,19 @@ from utils import (
 METADATA_GENERAL_KEY = "metadata_general"
 METADATA_XENIUM_KEY = "metadata_xenium"
 METADATA_VISIUM_KEY = "metadata_visium"
+# TODO: (new tech) add metadata key for new tech
+
+AVAILABLE_SCHEMAS = {
+    'xenium': {
+        'specific': ln.Schema.get(name='XeniumSpecifc'),
+        'composite': ln.Schema.get(name='Xenium'),
+    },
+    'visium': {
+        'specific': ln.Schema.get(name='VisiumSpecifc'),
+        'composite': ln.Schema.get(name='Visium'),
+    }
+    # TODO: (new tech) add schema name for specific and composite schemas of new techs
+}
 
 def main(args):
     data_path = Path(args.data_path)
@@ -30,7 +43,7 @@ def main(args):
     metadata = pd.read_csv(metadata_path, sep=';', index_col='uid')
     techs = set(metadata['Assay'].str.lower().unique())
 
-    schemas, features, is_optional, non_categorical, type_lookup = get_schema_configs_for_techs(techs)
+    schemas, features, is_optional, non_categorical, type_lookup = get_schema_configs_for_techs(techs, AVAILABLE_SCHEMAS)
 
     logger = Logger()
     write_processor = WriteProcessor()
@@ -79,6 +92,8 @@ def main(args):
                     k: v for k, v in metadata_cleaned.items() if k in features['visium']
                 }
 
+            # TODO: (new tech) if there're tech specific actions, add them here
+
             case _:
                 logger.add_error_record(uid, f"Assay {assay} not yet supported. Skipping dataset.")
                 continue
@@ -118,6 +133,22 @@ def main(args):
                 artifact.features.add_values(values_to_add)
 
                 logger.add_upload_log(uid, artifact.uid)
+
+                # vc = vit.VitessceConfig(
+                #     schema_version="1.0.17",
+                #     description=description,
+                # )
+                
+                # dataset = vc.add_dataset(name=description, uid=uid).add_object(
+                #     vit.SpatialDataWrapper(
+                #         sdata_artifact=artifact,
+                #         image_path=path_to_your_default_image_eg_the_first_one))
+                
+                # spatial = vc.add_view("spatialBeta", dataset=dataset)
+                
+                # sdata_vc_artifact = ln.integrations.save_vitessce_config(
+                #     vc, description=f"View {description}",
+                # )
 
         except Exception as e:
             logger.add_error_record(uid, str(e))
