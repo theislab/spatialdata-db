@@ -18,15 +18,14 @@ authors = [
   { name = "Lea Zimmermann" },
   { name = "Lukas Heumos" },
 ]
-requires-python = ">=3.10,<3.13"
+requires-python = ">=3.11,<3.14"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-  "lamindb[aws,bionty,jupyter]>=1.0.4",
   "numba>=0.61",
   "session-info2",
   "spatialdata",
@@ -35,13 +34,13 @@ dependencies = [
   "vitessce",
 ]
 optional-dependencies.dev = [
+  "ipykernel",
+  "ipython",
   "pre-commit",
   "twine>=4.0.2",
 ]
 optional-dependencies.doc = [
   "docutils>=0.8,!=0.18.*,!=0.19.*",
-  "ipykernel",
-  "ipython",
   "myst-nb>=1.1",
   "pandas",
   # Until pybtex >0.23.0 releases: https://bitbucket.org/pybtex-devs/pybtex/issues/169/
@@ -140,3 +139,29 @@ skip = [
   "docs/references.md",
   "docs/notebooks/example.ipynb",
 ]
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["osx-arm64", "linux-64"]
+
+[tool.pixi.dependencies]
+python = ">=3.11"
+pip = ">=25.2,<26"
+multipledispatch = ">=0.6.0,<0.7"
+
+[tool.pixi.pypi-dependencies]
+spatialdata-db = { path = ".", editable = true }
+
+[tool.pixi.feature.py311.dependencies]
+python = "3.11.*"
+
+[tool.pixi.feature.py313.dependencies]
+python = "3.13.*"
+
+[tool.pixi.environments]
+default   = { features = ["py313"], solve-group = "py313" }
+dev-py311 = { features = ["dev", "test", "py311"], solve-group = "py311" }
+dev-py313 = { features = ["dev", "test", "py313"], solve-group = "py313" }
+
+[tool.pixi.tasks]
+kernel-install = "python -m ipykernel install --user --name pixi-dev --display-name \"spatialdata-db (dev)\""
