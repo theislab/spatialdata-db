@@ -141,8 +141,8 @@ skip = [
 ]
 
 [tool.pixi.workspace]
-channels = ["conda-forge"]
-platforms = ["osx-arm64", "linux-64"]
+channels = [ "conda-forge" ]
+platforms = [ "osx-arm64", "linux-64" ]
 
 [tool.pixi.dependencies]
 python = ">=3.11"
@@ -159,9 +159,9 @@ python = "3.11.*"
 python = "3.13.*"
 
 [tool.pixi.environments]
-default   = { features = ["py313"], solve-group = "py313" }
-dev-py311 = { features = ["dev", "test", "py311"], solve-group = "py311" }
-dev-py313 = { features = ["dev", "test", "py313"], solve-group = "py313" }
+default = { features = [ "py313" ], solve-group = "py313" }
+dev-py311 = { features = [ "dev", "test", "py311" ], solve-group = "py311" }
+dev-py313 = { features = [ "dev", "test", "py313" ], solve-group = "py313" }
 
 [tool.pixi.tasks]
 kernel-install = "python -m ipykernel install --user --name pixi-dev --display-name \"spatialdata-db (dev)\""
