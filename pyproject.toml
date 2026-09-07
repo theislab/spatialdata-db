@@ -62,26 +62,34 @@ urls.Documentation = "https://spatialdata-db.readthedocs.io/"
 urls.Homepage = "https://github.com/timtreis/spatialdata-db"
 urls.Source = "https://github.com/timtreis/spatialdata-db"
 
-[tool.hatch.envs.default]
-installer = "uv"
-features = [ "dev" ]
+[tool.hatch]
+envs.default.installer = "uv"
+envs.default.features = [ "dev" ]
+envs.docs.scripts.build = "sphinx-build -M html docs docs/_build {args}"
+envs.docs.scripts.clean = "git clean -fdX -- {args:docs}"
+envs.docs.scripts.open = "python -m webbrowser -t docs/_build/html/index.html"
+envs.docs.extra-features = [ "doc" ]
+envs.hatch-test.features = [ "test" ]
 
-[tool.hatch.envs.docs]
-extra-features = [ "doc" ]
-scripts.build = "sphinx-build -M html docs docs/_build {args}"
-scripts.open = "python -m webbrowser -t docs/_build/html/index.html"
-scripts.clean = "git clean -fdX -- {args:docs}"
-
-[tool.hatch.envs.hatch-test]
-features = [ "test" ]
+[tool.pixi]
+workspace.channels = [ "conda-forge" ]
+workspace.platforms = [ "linux-64", "osx-arm64" ]
+dependencies.multipledispatch = ">=0.6.0,<0.7"
+dependencies.pip = ">=25.2,<26"
+dependencies.python = ">=3.11"
+pypi-dependencies.spatialdata-db = { path = ".", editable = true }
+tasks.kernel-install = 'python -m ipykernel install --user --name pixi-dev --display-name "spatialdata-db (dev)"'
+feature.py311.dependencies.python = "3.11.*"
+feature.py313.dependencies.python = "3.13.*"
+environments.default = { features = [ "py313" ], solve-group = "py313" }
+environments.dev-py311 = { features = [ "dev", "test", "py311" ], solve-group = "py311" }
+environments.dev-py313 = { features = [ "dev", "test", "py313" ], solve-group = "py313" }
 
 [tool.ruff]
 line-length = 120
 src = [ "src" ]
 extend-include = [ "*.ipynb" ]
-
 format.docstring-code-format = true
-
 lint.select = [
   "B",      # flake8-bugbear
   "BLE",    # flake8-blind-except
@@ -115,16 +123,16 @@ lint.per-file-ignores."docs/*" = [ "I" ]
 lint.per-file-ignores."tests/*" = [ "D" ]
 lint.pydocstyle.convention = "numpy"
 
-[tool.pytest.ini_options]
-testpaths = [ "tests" ]
-xfail_strict = true
-addopts = [
+[tool.pytest]
+ini_options.testpaths = [ "tests" ]
+ini_options.addopts = [
   "--import-mode=importlib", # allow using test files with same name
 ]
+ini_options.xfail_strict = true
 
-[tool.coverage.run]
-source = [ "spatialdata_db" ]
-omit = [
+[tool.coverage]
+run.source = [ "spatialdata_db" ]
+run.omit = [
   "**/test_*.py",
 ]
 
@@ -139,29 +147,3 @@ skip = [
   "docs/references.md",
   "docs/notebooks/example.ipynb",
 ]
-
-[tool.pixi.workspace]
-channels = ["conda-forge"]
-platforms = ["osx-arm64", "linux-64"]
-
-[tool.pixi.dependencies]
-python = ">=3.11"
-pip = ">=25.2,<26"
-multipledispatch = ">=0.6.0,<0.7"
-
-[tool.pixi.pypi-dependencies]
-spatialdata-db = { path = ".", editable = true }
-
-[tool.pixi.feature.py311.dependencies]
-python = "3.11.*"
-
-[tool.pixi.feature.py313.dependencies]
-python = "3.13.*"
-
-[tool.pixi.environments]
-default   = { features = ["py313"], solve-group = "py313" }
-dev-py311 = { features = ["dev", "test", "py311"], solve-group = "py311" }
-dev-py313 = { features = ["dev", "test", "py313"], solve-group = "py313" }
-
-[tool.pixi.tasks]
-kernel-install = "python -m ipykernel install --user --name pixi-dev --display-name \"spatialdata-db (dev)\""
