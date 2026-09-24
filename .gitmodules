@@ -1,0 +1,6 @@
+[submodule "extern/schemas"]
+	path = extern/schemas
+	url = https://github.com/theislab/spatialdata-schemas
+[submodule "extern/curation"]
+	path = extern/curation
+	url = https://github.com/theislab/spatialdata-db-curation

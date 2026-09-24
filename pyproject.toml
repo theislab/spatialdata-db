@@ -158,10 +158,21 @@ python = "3.11.*"
 [tool.pixi.feature.py313.dependencies]
 python = "3.13.*"
 
+# Isolated env for building the (external) schema submodule into the lamin
+# instance. Pinned to match theislab/spatialdata-schemas' runtime.
+[tool.pixi.feature.schema.dependencies]
+lamindb = "1.10.*"
+bionty = "1.6.*"
+
+[tool.pixi.feature.schema.tasks]
+build-schema = "python scripts/build_schema.py"
+
 [tool.pixi.environments]
 default   = { features = ["py313"], solve-group = "py313" }
 dev-py311 = { features = ["dev", "test", "py311"], solve-group = "py311" }
 dev-py313 = { features = ["dev", "test", "py313"], solve-group = "py313" }
+schema    = { features = ["schema"], solve-group = "schema" }
 
 [tool.pixi.tasks]
 kernel-install = "python -m ipykernel install --user --name pixi-dev --display-name \"spatialdata-db (dev)\""
+sync = "git submodule update --init --recursive"
