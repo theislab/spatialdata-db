@@ -35,6 +35,7 @@
 ## Task 1: Curation dev env + reconcile scaffold
 
 **Files:**
+
 - Modify: `pixi.toml` (add pytest to a `test` feature + `test` task + `linux-64` platform; ensure `pixi.lock` gitignored)
 - Modify: `.gitignore` (add `pixi.lock` if absent)
 - Create: `tests/conftest.py`
@@ -42,17 +43,21 @@
 - Test: `tests/test_reconcile_scaffold.py`
 
 **Interfaces:**
+
 - Produces: `load_scrape(path: str) -> list[dict[str, str]]`; `source_fp(url: str) -> str` (canonical fingerprint of a URL, `""` if empty/uncanonicalizable).
 
 - [ ] **Step 1: Add pytest to curation via pixi**
 
 Run (from curation root):
+
 ```bash
 pixi project platform add linux-64
 pixi add --feature test pytest
 pixi task add test "pytest -q"
 ```
+
 Confirm `pixi.lock` is untracked/ignored:
+
 ```bash
 grep -qxF 'pixi.lock' .gitignore || printf 'pixi.lock\n' >> .gitignore
 git status --porcelain pixi.lock   # expect empty (ignored)
@@ -61,6 +66,7 @@ git status --porcelain pixi.lock   # expect empty (ignored)
 - [ ] **Step 2: conftest puts tools/ on sys.path**
 
 Create `tests/conftest.py`:
+
 ```python
 import os
 import sys
@@ -71,6 +77,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools"))
 - [ ] **Step 3: Write the failing test**
 
 Create `tests/test_reconcile_scaffold.py`:
+
 ```python
 import reconcile_datasets as rc
 
@@ -101,6 +108,7 @@ Expected: FAIL (`ModuleNotFoundError: reconcile_datasets` / attributes missing).
 - [ ] **Step 5: Write minimal implementation**
 
 Create `tools/reconcile_datasets.py`:
+
 ```python
 #!/usr/bin/env python3
 """Reconcile the raw 10x scrape into the canonical dataset registry.
@@ -175,10 +183,12 @@ git commit -m "chore(curation): add pytest env + reconcile scaffold"
 ## Task 2: UID backfill + unmatched report
 
 **Files:**
+
 - Modify: `tools/reconcile_datasets.py` (add `scrape_key`, `registry_key`, `backfill_uids`)
 - Test: `tests/test_reconcile_link.py`
 
 **Interfaces:**
+
 - Consumes: `source_fp` (Task 1).
 - Produces:
   - `scrape_key(row) -> tuple[str, str]` = `(source_fp(dataset_link), Replicate.strip())`
@@ -188,6 +198,7 @@ git commit -m "chore(curation): add pytest env + reconcile scaffold"
 - [ ] **Step 1: Write the failing test**
 
 Create `tests/test_reconcile_link.py`:
+
 ```python
 import reconcile_datasets as rc
 
@@ -247,6 +258,7 @@ Expected: FAIL (`backfill_uids` not defined).
 - [ ] **Step 3: Write minimal implementation**
 
 Append to `tools/reconcile_datasets.py`:
+
 ```python
 def scrape_key(row: dict[str, str]) -> tuple[str, str]:
     return (source_fp(row.get("dataset_link", "")), (row.get("Replicate") or "").strip())
@@ -306,10 +318,12 @@ git commit -m "feat(curation): backfill dataset UIDs by fingerprint+replicate"
 ## Task 3: Fold scrape-only datasets into the registry
 
 **Files:**
+
 - Modify: `tools/reconcile_datasets.py` (add `build_notes`, `fold_new`)
 - Test: `tests/test_reconcile_fold.py`
 
 **Interfaces:**
+
 - Consumes: `SCRAPE_TO_REGISTRY`, `NOTE_FIELDS`, `ensure_fingerprints_row` (canon).
 - Produces:
   - `build_notes(scrape_row) -> str` = `"; ".join(f"{k}={v}")` over non-empty `NOTE_FIELDS`.
@@ -318,6 +332,7 @@ git commit -m "feat(curation): backfill dataset UIDs by fingerprint+replicate"
 - [ ] **Step 1: Write the failing test**
 
 Create `tests/test_reconcile_fold.py`:
+
 ```python
 import reconcile_datasets as rc
 
@@ -382,6 +397,7 @@ Expected: FAIL (`fold_new` not defined).
 - [ ] **Step 3: Write minimal implementation**
 
 Append to `tools/reconcile_datasets.py`:
+
 ```python
 def build_notes(scrape_row: dict[str, str]) -> str:
     parts = [f"{k}={scrape_row[k].strip()}" for k in NOTE_FIELDS
@@ -438,6 +454,7 @@ git commit -m "feat(curation): fold scrape-only datasets into registry"
 ## Task 4: Orchestration, keyspace invariant, idempotency + regenerate registry
 
 **Files:**
+
 - Modify: `tools/reconcile_datasets.py` (add `load_uid_keyspace`, `check_keyspace`, `write_unmatched`, `reconcile`, `main`, `__main__`)
 - Create: `sources/datasets_10x.csv` (the scrape, copied from `spatialdata-db/scripts/data/datasets_10x.csv`)
 - Create: `tools/reports/.gitkeep`
@@ -446,6 +463,7 @@ git commit -m "feat(curation): fold scrape-only datasets into registry"
 - Test: `tests/test_reconcile_run.py`
 
 **Interfaces:**
+
 - Consumes: `backfill_uids` (Task 2), `fold_new` (Task 3), `load_registry`/`write_registry` (canon).
 - Produces:
   - `load_uid_keyspace(path) -> set[str]` — the `uid` column of `registry/uids.csv` (`;`-separated).
@@ -456,6 +474,7 @@ git commit -m "feat(curation): fold scrape-only datasets into registry"
 - [ ] **Step 1: Write the failing test**
 
 Create `tests/test_reconcile_run.py`:
+
 ```python
 import reconcile_datasets as rc
 
@@ -507,6 +526,7 @@ Expected: FAIL (`reconcile` not defined).
 - [ ] **Step 3: Write minimal implementation**
 
 Append to `tools/reconcile_datasets.py`:
+
 ```python
 def load_uid_keyspace(path: str) -> set[str]:
     with open(path, newline="", encoding="utf-8") as f:
@@ -584,6 +604,7 @@ python tools/reconcile_datasets.py
 python tools/reconcile_datasets.py --check   # expect "OK" + exit 0 (idempotent)
 python tools/validate.py registry/datasets.csv   # existing validator still passes
 ```
+
 Expected: first run prints the row/unmatched counts (~40 unmatched); `--check` prints `OK`.
 
 - [ ] **Step 6: Full test suite**
@@ -605,16 +626,19 @@ git commit -m "feat(curation): reconcile 10x scrape into canonical registry"
 ## Task 5: Collapse the near-duplicate `datasets_merged.csv`
 
 **Files:**
+
 - Create: `tools/check_merged_subsumed.py` (one-shot verification)
 - Delete: `scripts/metadata/datasets_merged.csv`
 - Test: `tests/test_merged_subsumed.py`
 
 **Interfaces:**
+
 - Produces: `extra_info(merged, registry) -> list[str]` — dataset_ids where `datasets_merged.csv`'s `Software` column holds a non-empty value that is absent from the registry row's `software_name`/`software_version`. Empty list == merged adds nothing → safe to delete.
 
 - [ ] **Step 1: Write the failing test**
 
 Create `tests/test_merged_subsumed.py`:
+
 ```python
 import check_merged_subsumed as cm
 
@@ -639,6 +663,7 @@ Expected: FAIL (module missing).
 - [ ] **Step 3: Write minimal implementation**
 
 Create `tools/check_merged_subsumed.py`:
+
 ```python
 #!/usr/bin/env python3
 """Verify scripts/metadata/datasets_merged.csv adds nothing beyond registry.
@@ -701,6 +726,7 @@ Expected: PASS.
 python tools/check_merged_subsumed.py   # expect "OK ... safe to delete"
 git rm scripts/metadata/datasets_merged.csv
 ```
+
 If it prints `NOT subsumed`, STOP and report the flagged dataset_ids — do not delete; the uncovered `Software` values need folding into the registry first.
 
 - [ ] **Step 6: Commit**
@@ -716,6 +742,7 @@ git commit -m "chore(curation): drop datasets_merged.csv (subsumed by registry)"
 git push -u origin HEAD
 gh pr create --repo theislab/spatialdata-db-curation --fill
 ```
+
 PR body: terse, maintainer-style; note the ~40 unmatched rows in `tools/reports/datasets_unmatched.csv` need a human uid pass. No AI attribution line.
 
 ---
@@ -723,6 +750,7 @@ PR body: terse, maintainer-style; note the ~40 unmatched rows in `tools/reports/
 ## Task 6: Hub reads curation via submodule; drop local scrape copy
 
 **Files (repo: `spatialdata-db`, worktree `spatialdata-db-hub`, branch off `main`):**
+
 - Modify: `extern/curation` (submodule pointer → merged curation commit)
 - Delete: `scripts/data/datasets_10x.csv`
 - Modify: any file that reads `scripts/data/datasets_10x.csv` → read `extern/curation/registry/datasets.csv` (or `extern/curation/sources/datasets_10x.csv` if the raw scrape is genuinely needed)
@@ -743,13 +771,14 @@ git add extern/curation
 - [ ] **Step 3: Repoint readers, then delete the copy**
 
 For each reader found in Step 1, change the path to `extern/curation/registry/datasets.csv` (canonical) — or the `sources/` scrape only where raw 10x columns are required. Then:
+
 ```bash
 git rm scripts/data/datasets_10x.csv
 ```
 
 - [ ] **Step 4: Verify the build/tests still pass reading via submodule**
 
-Run: `pixi run test`  (and the hub's schema build, e.g. `pixi run build-schema` if defined — check `pixi task list`)
+Run: `pixi run test` (and the hub's schema build, e.g. `pixi run build-schema` if defined — check `pixi task list`)
 Expected: PASS with no reference to the deleted local copy.
 
 - [ ] **Step 5: Commit + PR**
@@ -766,6 +795,7 @@ gh pr create --repo theislab/spatialdata-db --fill
 ## Task 7: Remove the db-side scrape copy
 
 **Files (repo: `spatialdata-db`, branch off `main`):**
+
 - Delete: `scripts/data/datasets_10x.csv`
 - Modify: any db reader of that path → `extern/curation` (mirror Task 6 findings)
 

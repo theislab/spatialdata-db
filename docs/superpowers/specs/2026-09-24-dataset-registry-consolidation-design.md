@@ -15,6 +15,7 @@ column reconciliation is an implementation detail kept deliberately minimal and 
 **not** derived from lamin schema/ontology logic.
 
 Success criteria:
+
 - Exactly one owner per concern; no dataset CSV duplicated across repos.
 - The hub and any downstream consume dataset data through the `extern/curation`
   submodule only.
@@ -24,6 +25,7 @@ Success criteria:
   safely link are reported for human review, never guessed.
 
 Non-goals (explicitly out of scope):
+
 - Redesigning the registry column schema around lamin ulabels/ontologies.
 - Adding per-tech normalized extension tables. Keep the current flat
   `registry/datasets.csv`; fold in the scrape's fields pragmatically.
@@ -33,12 +35,14 @@ Non-goals (explicitly out of scope):
 
 Duplication of the raw 10x scrape (`datasets_10x.csv`, 212 rows, `;`-separated,
 34 mixed columns):
+
 - `spatialdata-db/scripts/data/datasets_10x.csv` (tracked)
 - `spatialdata-db-hub/scripts/data/datasets_10x.csv` (tracked)
 - `spatialdata-db-uids/scripts/data/datasets_10x.csv` (tracked; worktree of `db`)
 - `spatialdata-db_old/.../data/datasets_10x.csv` (stale legacy)
 
 Curation (`extern/curation`, sole UID owner since Phase 2):
+
 - `registry/uids.csv` — 119,165 rows, `uid;source;id` (keyspace, canonical).
 - `registry/datasets.csv` — 207 rows, `,`-separated, 22 cols; 110 have `local_uid`
   (all 110 match uids in the scrape), 97 have none. All rows are 10x-manufacturer.
@@ -48,6 +52,7 @@ Curation (`extern/curation`, sole UID owner since Phase 2):
   repos above.
 
 Linkage analysis (scrape ↔ registry):
+
 - 110 registry rows link to scrape uids exactly; 0 registry-only uids.
 - 102 scrape uids are absent from the registry (new datasets to fold in).
 - Of the 97 uid-less registry rows, ~57 are matchable to a scrape row by normalized
@@ -85,6 +90,7 @@ A re-runnable `curation/tools/reconcile_datasets.py` that reads
 an updated `registry/datasets.csv` plus a report. Deterministic, idempotent, no network.
 
 Steps:
+
 1. **Exact uid link** — the 110 rows already carrying `local_uid` pass through.
 2. **Backfill uid link** — for uid-less registry rows, match to a scrape row by a
    composite key: normalized `primary_source`/`dataset_link` URL **+** `Replicate`.
