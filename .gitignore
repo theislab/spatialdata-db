@@ -35,3 +35,7 @@ test.ipynb
 upload*
 
 /local_scripts/
+
+# pixi: commit config in pyproject.toml, never the lockfile or the env
+pixi.lock
+.pixi/

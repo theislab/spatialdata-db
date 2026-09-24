@@ -18,14 +18,17 @@ authors = [
   { name = "Lea Zimmermann" },
   { name = "Lukas Heumos" },
 ]
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.11,<3.15"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
+  "bionty",
+  "lamindb",
   "numba>=0.61",
   "session-info2",
   "spatialdata",
@@ -141,8 +144,8 @@ skip = [
 ]
 
 [tool.pixi.workspace]
-channels = ["conda-forge"]
-platforms = ["osx-arm64", "linux-64"]
+channels = [ "conda-forge" ]
+platforms = [ "osx-arm64", "linux-64" ]
 
 [tool.pixi.dependencies]
 python = ">=3.11"
@@ -158,10 +161,22 @@ python = "3.11.*"
 [tool.pixi.feature.py313.dependencies]
 python = "3.13.*"
 
+# Isolated env for building the (external) schema submodule into the lamin
+# instance. Pinned to match theislab/spatialdata-schemas' runtime.
+[tool.pixi.feature.schema.dependencies]
+python = "3.13.*"
+lamindb = "1.10.*"
+bionty = "1.6.*"
+
+[tool.pixi.feature.schema.tasks]
+build-schema = "python scripts/build_schema.py"
+
 [tool.pixi.environments]
-default   = { features = ["py313"], solve-group = "py313" }
-dev-py311 = { features = ["dev", "test", "py311"], solve-group = "py311" }
-dev-py313 = { features = ["dev", "test", "py313"], solve-group = "py313" }
+default = { features = [ "py313" ], solve-group = "py313" }
+dev-py311 = { features = [ "dev", "test", "py311" ], solve-group = "py311" }
+dev-py313 = { features = [ "dev", "test", "py313" ], solve-group = "py313" }
+schema = { features = [ "schema" ], solve-group = "schema", no-default-feature = true }
 
 [tool.pixi.tasks]
 kernel-install = "python -m ipykernel install --user --name pixi-dev --display-name \"spatialdata-db (dev)\""
+sync = "git submodule update --init --recursive"

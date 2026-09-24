@@ -24,15 +24,13 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            python: "3.10"
-          - os: ubuntu-latest
             python: "3.11"
           - os: ubuntu-latest
-            python: "3.11"
-            pip-flags: "--pre"
-            name: PRE-RELEASE DEPENDENCIES
+            python: "3.13"
+          - os: ubuntu-latest
+            python: "3.14"
 
-    name: ${{ matrix.name }} Python ${{ matrix.python }}
+    name: Python ${{ matrix.python }}
 
     env:
       OS: ${{ matrix.os }}
