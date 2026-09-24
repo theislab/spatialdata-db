@@ -30,15 +30,16 @@ everything through pixi, and remove the cross-repo duplication (esp. UIDs).
 - Verify: `git submodule status` shows both pinned; `pixi run sync` idempotent;
   `python scripts/build_schema.py --help`/import works (no write in CI).
 
-## Phase 2 — UID single source of truth → curation (separate PR, needs review)
+## Phase 2 — UID single source of truth → curation (DONE)
 
-- [ ] Audit both UID stores: db `scripts/data/uid_master.csv` (1.6 MB),
-      `update_uid_master.py`, `create_uids.ipynb` vs curation `registry/uids.csv`.
-- [ ] Decide canonical file in curation; migrate/merge without losing IDs.
-- [ ] Repoint db conversion + `create_uids` logic to read UIDs from
-      `extern/curation/registry/uids.csv`.
-- [ ] Deprecate the db-side duplicate (keep a shim/redirect for one release).
-- Verify: no UID collisions; existing dataset UIDs unchanged; round-trip test.
+- [x] Audited: both files were the same 4 × 29,791 keyspace; curation's had 965
+      uids corrupted by a `10x` → `10x Genomics` find-replace leaking into the uid.
+- [x] Curation (spatialdata-db-curation#4): repaired the 965 uids + added
+      `tools/mint_uids.py`. Curation is now the sole owner/writer.
+- [x] db: deleted `uid_master.csv`, `create_uids.ipynb`, `update_uid_master.py`;
+      bumped the `extern/curation` submodule; README points to curation.
+- Verified: curation keyspace == db's clean set (0 diff); 107 assignments preserved.
+- Deferred to Phase 3: dataset→UID assignments (`datasets_10x.csv` vs `datasets.csv`).
 
 ## Phase 3 — dedupe registries + integration smoke CI
 

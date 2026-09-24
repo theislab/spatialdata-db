@@ -51,6 +51,10 @@ from Ilan's PR: https://github.com/vitessce/vitessce-python/pull/333
 
 ## UID logic
 
+UIDs are owned by curation: the registry and generator live in
+`extern/curation` (`registry/uids.csv`, `tools/mint_uids.py`). This repo reads
+them read-only.
+
 - Absolute ID will be a 5 char string of lowercase letters and digits -> 60466176 IDs
 - Leaving out the letters [l, b, o, g, q] due to their similarity to [1, 6, 0, 9, 9] -> 28629151 IDs
 - Reserve ID spaces for technology providers
