@@ -18,18 +18,17 @@ authors = [
   { name = "Lea Zimmermann" },
   { name = "Lukas Heumos" },
 ]
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.11,<3.15"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-  # lamindb pinned: curator uses lamindb.curators._spatial (private API that
-  # moved in newer releases); bump deliberately when the curator is updated.
-  "bionty>=1.6,<1.7",
-  "lamindb>=1.10,<1.11",
+  "bionty",
+  "lamindb",
   "numba>=0.61",
   "session-info2",
   "spatialdata",
