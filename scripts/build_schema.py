@@ -26,7 +26,7 @@ def main() -> None:
         )
     # The schema modules use flat imports (`from utils import ...`).
     sys.path.insert(0, str(SCHEMA_LAMIN))
-    from build import build_all  # noqa: E402  (path set above)
+    from build import build_all
 
     versions = build_all()
     print("Built schema versions:", versions)
