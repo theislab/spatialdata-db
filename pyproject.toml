@@ -26,8 +26,10 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-  "bionty",
-  "lamindb",
+  # lamindb pinned: curator uses lamindb.curators._spatial (private API that
+  # moved in newer releases); bump deliberately when the curator is updated.
+  "bionty>=1.6,<1.7",
+  "lamindb>=1.10,<1.11",
   "numba>=0.61",
   "session-info2",
   "spatialdata",
