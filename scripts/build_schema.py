@@ -39,6 +39,7 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
 
 
 def main(argv: list[str] | None = None) -> None:
+    """Build the schema submodule into the connected lamin instance (gated by --yes)."""
     args = _parse_args(argv)
 
     if not (SCHEMA_LAMIN / "build.py").exists():

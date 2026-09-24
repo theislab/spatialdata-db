@@ -161,7 +161,7 @@ python = "3.13.*"
 # Isolated env for building the (external) schema submodule into the lamin
 # instance. Pinned to match theislab/spatialdata-schemas' runtime.
 [tool.pixi.feature.schema.dependencies]
-python = "3.11.*"
+python = "3.13.*"
 lamindb = "1.10.*"
 bionty = "1.6.*"
 
