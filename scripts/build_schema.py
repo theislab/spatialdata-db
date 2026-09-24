@@ -61,12 +61,10 @@ def main(argv: list[str] | None = None) -> None:
 
     slug = getattr(ln_setup.settings.instance, "slug", None)
     if args.instance and args.instance != slug:
-        raise SystemExit(
-            f"Connected instance is '{slug}', but --instance requested '{args.instance}'."
-        )
+        raise SystemExit(f"Connected instance is '{slug}', but --instance requested '{args.instance}'.")
     print(f"Building schema into lamin instance: {slug}")
 
-    from build import build_all  # noqa: E402  (path set above)
+    from build import build_all
 
     versions = build_all()
     print("Built schema versions:", versions)
