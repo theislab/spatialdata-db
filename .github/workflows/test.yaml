@@ -15,7 +15,6 @@ concurrency:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.continue-on-error || false }}
     defaults:
       run:
         shell: bash -e {0} # -e to fail on error
@@ -28,13 +27,8 @@ jobs:
             python: "3.11"
           - os: ubuntu-latest
             python: "3.13"
-          - os: ubuntu-latest
-            python: "3.11"
-            pip-flags: "--pre"
-            name: PRE-RELEASE DEPENDENCIES
-            continue-on-error: true
 
-    name: ${{ matrix.name }} Python ${{ matrix.python }}
+    name: Python ${{ matrix.python }}
 
     env:
       OS: ${{ matrix.os }}
