@@ -21,6 +21,7 @@ __pycache__/
 /data/
 /scripts/data/
 /node_modules/
+.coverage
 
 # docs
 /docs/generated/
