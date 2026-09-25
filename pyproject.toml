@@ -162,11 +162,15 @@ python = "3.11.*"
 python = "3.13.*"
 
 # Isolated env for building the (external) schema submodule into the lamin
-# instance. Pinned to match theislab/spatialdata-schemas' runtime.
+# instance. Kept in lockstep with theislab/spatialdata-schemas' pixi.toml runtime;
+# lamindb/bionty 2.x are published on PyPI only (conda-forge tops out at 1.10/1.6),
+# so the lamin stack is pulled from PyPI here.
 [tool.pixi.feature.schema.dependencies]
 python = "3.13.*"
-lamindb = "1.10.*"
-bionty = "1.6.*"
+
+[tool.pixi.feature.schema.pypi-dependencies]
+lamindb = ">=2.10,<3"
+bionty = ">=2.5,<3"
 
 [tool.pixi.feature.schema.tasks]
 build-schema = "python scripts/build_schema.py"
